@@ -152,7 +152,7 @@ canvas#stage{position:fixed;inset:0;z-index:2;width:100vw;height:100vh;height:10
 .outro{position:relative;z-index:3;overflow:hidden;isolation:isolate;color:#fff;background:#10190f;padding:clamp(96px,13vw,180px) max(5vw,16px) 34px}
 .outro::before{content:"";position:absolute;inset:0;z-index:-2;background:radial-gradient(60% 55% at 88% 8%,rgba(254,146,4,.26),rgba(254,146,4,0) 62%),radial-gradient(70% 70% at 6% 100%,rgba(46,125,86,.55),rgba(46,125,86,0) 65%),linear-gradient(160deg,#0f2a1d 0%,#0a1a12 55%,#07110b 100%)}
 .outro::after{content:"";position:absolute;inset:0;z-index:-1;background-image:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:120px 120px,120px 120px,24px 24px,24px 24px;-webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 75%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0%,#000 30%,#000 75%,transparent 100%)}
-.outro .in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:end}
+.outro .in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(32px,5vw,72px);align-items:start}
 .outro .eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:14px;color:rgba(255,255,255,.78);margin-bottom:18px}
 .outro .eyebrow i{width:22px;height:2px;background:var(--orange);display:block}
 .outro h2{margin:0;font:800 clamp(44px,6.6vw,96px)/.94 "Inter Tight",Inter,sans-serif;letter-spacing:-.045em;text-wrap:balance;color:#fff}
@@ -164,6 +164,36 @@ canvas#stage{position:fixed;inset:0;z-index:2;width:100vw;height:100vh;height:10
 .outro .contact small{font:600 11.5px/1 Inter,sans-serif;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.58)}
 .outro .btn.o{height:58px}
 .outro .area{margin-top:18px;font-size:13.5px;color:rgba(255,255,255,.62)}
+/* ---------- Partnerbetriebe ---------- */
+.partner{position:relative;z-index:3;background:var(--bg);padding:clamp(72px,10vw,140px) max(5vw,16px)}
+.partner .in{max-width:1240px;margin:0 auto}
+.partner .eyebrow{display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:14px;color:var(--ink2);margin-bottom:16px}
+.partner .eyebrow i{width:22px;height:2px;background:var(--orange);display:block}
+.partner h2{margin:0 0 clamp(28px,4vw,52px);font:800 clamp(34px,4.6vw,64px)/1 "Inter Tight",Inter,sans-serif;letter-spacing:-.04em;color:var(--ink);text-wrap:balance}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.pcard{display:flex;gap:16px;align-items:center;padding:18px 20px;border-radius:20px;background:var(--paper);color:var(--ink);text-decoration:none;box-shadow:0 0 0 1px var(--line);transition:transform .25s,box-shadow .25s}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 0 0 1px rgba(30,91,62,.35),0 14px 30px -18px rgba(18,18,18,.35)}
+.pcard .mono{flex:none;width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--green);color:#fff;font:800 18px/1 "Inter Tight",Inter,sans-serif;letter-spacing:-.02em}
+.pcard b{display:block;font:700 16.5px/1.25 Inter,sans-serif}
+.pcard span{display:block;margin-top:3px;font-size:14px;color:var(--ink2)}
+.pcard em{display:block;margin-top:6px;font:500 12.5px/1 Inter,sans-serif;color:var(--green2);font-style:normal;word-break:break-all}
+/* contact form */
+.outro .person{margin:0 0 18px;font-size:14px;color:rgba(255,255,255,.7)}
+.outro .person b{color:#fff;font-weight:600}
+.cform{padding:clamp(22px,3vw,34px);border-radius:24px;background:rgba(255,255,255,.08);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)}
+.cform h3{margin:0 0 8px;font:700 clamp(22px,2.4vw,28px)/1.15 "Inter Tight",Inter,sans-serif;letter-spacing:-.02em;color:#fff}
+.cform>p{margin:0 0 20px;font-size:14.5px;color:rgba(255,255,255,.72)}
+.cform .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.cform label{display:block;margin-bottom:12px;font:600 11.5px/1 Inter,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.62)}
+.cform input:not([type=checkbox]),.cform textarea{display:block;width:100%;margin-top:7px;padding:13px 14px;border-radius:12px;border:0;background:rgba(255,255,255,.1);color:#fff;font:500 16px/1.3 Inter,sans-serif;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18);outline:none;text-transform:none;letter-spacing:0}
+.cform textarea{min-height:104px;resize:vertical}
+.cform input:focus,.cform textarea:focus{box-shadow:inset 0 0 0 2px var(--orange)}
+.cform ::placeholder{color:rgba(255,255,255,.4)}
+.cform .cb{display:flex;gap:10px;align-items:flex-start;margin:4px 0 18px;font:400 13px/1.45 Inter,sans-serif;letter-spacing:0;text-transform:none;color:rgba(255,255,255,.75)}
+.cform .cb input{flex:none;width:18px;height:18px;margin:2px 0 0;accent-color:var(--orange)}
+.cform .cb a{color:#fff}
+.cform .btn{width:100%;justify-content:center;border:0;cursor:pointer;font-family:inherit}
+@media (max-width:520px){.cform .row2{grid-template-columns:1fr}}
 .foot{position:relative;max-width:1240px;margin:clamp(64px,8vw,110px) auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.18);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.62)}
 .foot nav{display:flex;gap:20px}.foot a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .2s}.foot a:hover{color:#fff}
 .foot svg{height:20px;width:auto;display:block}
@@ -369,18 +399,28 @@ canvas#stage{position:fixed;inset:0;z-index:2;width:100vw;height:100vh;height:10
  </div>
 </section>
 
+<section class="partner" id="partner" aria-label="Partnerbetriebe"><div class="in"><div class="eyebrow"><i></i>Netzwerk</div><h2>Partnerbetriebe aus der Region</h2><div class="pgrid"><a class="pcard" href="https://www.priobau.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">PB</div><div><b>Priobau</b><span>Sanieren, Renovieren, Umbauen</span><em>www.priobau.de</em></div></a><a class="pcard" href="https://www.hennef-maler.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">FJ</div><div><b>Malermeister Felix Jung</b><span>Maler und Lackierer</span><em>www.hennef-maler.de</em></div></a><a class="pcard" href="https://www.raumkunst-kroll.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">RK</div><div><b>Raumkunst Kroll</b><span>Fugenlose Wohnräume</span><em>www.raumkunst-kroll.de</em></div></a><a class="pcard" href="https://www.weber-wolf.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">WW</div><div><b>Weber Wolf Gerüstbau</b><span>Gerüstbau</span><em>www.weber-wolf.de</em></div></a><a class="pcard" href="https://www.veobau.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">VB</div><div><b>Veo Bau und Sanierung</b><span>Zimmerer und Dachdecker</span><em>www.veobau.de</em></div></a><a class="pcard" href="https://www.die-lente.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">DL</div><div><b>Die Lente Porenbeton GmbH</b><span>Bauen mit Porenbeton</span><em>www.die-lente.de</em></div></a><a class="pcard" href="https://www.sadlowski-zerspanung.de" target="_blank" rel="noopener"><div class="mono" aria-hidden="true">SZ</div><div><b>Sadlowski Zerspanung</b><span>Metallverarbeitung</span><em>www.sadlowski-zerspanung.de</em></div></a></div></div></section>
+
 <section class="outro" id="kontakt">
  <div class="in">
   <div>
    <div class="eyebrow"><i></i>Kontakt</div>
-   <h2>Ihr Projekt. Massiv <span>gebaut.</span></h2>
-  </div>
-  <div>
-   <p class="lead">Schicken Sie uns Ihre Pläne oder rufen Sie an. Innerhalb von 48 Stunden erhalten Sie Ihr Angebot.</p>
-   <div class="contact"><a href="tel:+4917684584683"><small>Telefon</small>0176 84584683</a><a href="mailto:info@trhino.de"><small>E-Mail</small>info@trhino.de</a><span><small>Adresse</small>Buisdorfer Straße 20, 53757 Sankt Augustin</span></div>
-   <a class="btn o" href="mailto:info@trhino.de">Kostenloses Angebot anfragen<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+   <h2>Wir sind da, um <span>Lösungen</span> anzubieten.</h2>
+   <p class="lead" style="margin-top:22px">Sie können uns auf verschiedenen Wegen kontaktieren. Schreiben Sie uns eine Nachricht, rufen Sie uns an oder senden Sie eine E-Mail.</p>
+   <div class="contact"><a href="tel:+4917684584683"><small>Erreichbar unter</small>+49 176 84584683</a><a href="mailto:info@trhino.de"><small>E-Mail</small>info@trhino.de</a><span><small>Adresse</small>Buisdorfer Straße 20, 53757 Sankt Augustin</span></div>
    <div class="area">Meisterbetrieb · Köln, Bonn und Rhein-Sieg-Kreis</div>
   </div>
+  <form class="cform" id="cform" novalidate>
+   <h3>Vereinbaren Sie jetzt einen Anruf mit uns.</h3>
+   <p>Schreiben Sie uns eine Nachricht mit den Grunddaten zu Ihrem Bauprojekt. Wir melden uns umgehend bei Ihnen, um eine Lösung für Ihr Anliegen zu finden.</p>
+   <div class="person" style="margin-bottom:16px">Ihr Ansprechpartner: <b>Samuel Weiss</b>, Projektplanung</div>
+   <div class="row2"><label>Vorname *<input name="vn" autocomplete="given-name" required></label><label>Nachname *<input name="nn" autocomplete="family-name" required></label></div>
+   <label>Telefon<input name="tel" type="tel" autocomplete="tel" placeholder="+49 …"></label>
+   <label>E-Mail *<input name="mail" type="email" autocomplete="email" required></label>
+   <label>Worum geht es? *<textarea name="msg" required></textarea></label>
+   <label class="cb"><input type="checkbox" name="dsgvo" required><span>Ich habe die <a href="#">Datenschutzerklärung</a> gelesen und akzeptiere sie. *</span></label>
+   <button class="btn o" type="submit">Nachricht senden<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></button>
+  </form>
  </div>
  <div class="foot"><svg viewBox="0 0 904 254" aria-label="Trhino GmbH"><path fill="#FE9204" d="M0 0h904v26h-904zM0 26h28v14h-28zM876 26h28v14h-28zM568 40h20v2h-20zM566 42h24v20h-24zM0 40h560v24h-560zM568 62h20v2h-20zM596 40h308v24h-308zM656 98h24v4h-24zM656 102h26v2h-26zM656 104h28v4h-28zM656 108h30v4h-30zM656 112h32v4h-32zM252 98h92v20h-92zM656 116h34v2h-34zM806 98h98v20h-98zM656 118h36v4h-36zM656 122h38v4h-38zM656 126h40v2h-40zM656 128h42v4h-42zM840 132h30v2h-30zM656 132h44v4h-44zM656 136h46v4h-46zM656 140h48v2h-48zM656 142h50v4h-50zM852 134h4v12h-4zM840 146h30v2h-30zM404 98h22v52h-22zM474 98h26v52h-26zM656 146h52v4h-52zM868 148h2v2h-2zM656 150h54v4h-54zM656 154h56v2h-56zM850 154h18v2h-18zM846 156h6v2h-6zM864 156h6v2h-6zM656 156h58v4h-58zM846 158h4v2h-4zM846 160h2v2h-2zM868 158h2v4h-2zM252 118h24v46h-24zM318 118h26v46h-26zM682 160h34v4h-34zM848 162h2v2h-2zM866 162h4v2h-4zM684 164h34v2h-34zM838 164h30v2h-30zM838 166h32v2h-32zM404 150h96v20h-96zM686 166h34v4h-34zM688 170h34v4h-34zM848 172h22v2h-22zM846 174h24v2h-24zM690 174h34v4h-34zM692 178h34v2h-34zM728 98h26v82h-26zM846 176h2v4h-2zM848 180h2v2h-2zM252 164h92v20h-92zM694 180h60v4h-60zM850 182h20v2h-20zM286 184h32v2h-32zM846 184h24v2h-24zM288 186h30v2h-30zM696 184h58v4h-58zM288 188h32v2h-32zM846 186h2v4h-2zM290 190h32v2h-32zM698 188h56v4h-56zM848 190h2v2h-2zM292 192h30v2h-30zM700 192h54v2h-54zM850 192h20v2h-20zM292 194h32v2h-32zM846 194h24v2h-24zM702 194h52v4h-52zM294 196h32v4h-32zM296 200h32v2h-32zM704 198h50v4h-50zM844 200h6v2h-6zM854 200h16v2h-16zM298 202h30v2h-30zM842 202h8v2h-8zM854 202h12v2h-12zM298 204h32v2h-32zM706 202h48v4h-48zM840 204h4v2h-4zM866 204h2v2h-2zM300 206h32v2h-32zM708 206h46v2h-46zM840 206h2v2h-2zM866 206h4v2h-4zM302 208h30v2h-30zM854 204h2v6h-2zM302 210h32v2h-32zM710 208h44v4h-44zM838 208h4v4h-4zM868 208h2v4h-2zM138 64h40v150h-40zM304 212h30v2h-30zM840 212h2v2h-2zM138 214h42v2h-42zM304 214h32v2h-32zM712 212h42v4h-42zM840 214h4v2h-4zM866 212h4v4h-4zM306 216h32v2h-32zM842 216h4v2h-4zM862 216h6v2h-6zM308 218h30v2h-30zM714 216h40v4h-40zM844 218h22v2h-22zM308 220h32v2h-32zM716 220h38v2h-38zM852 220h4v2h-4zM310 222h32v4h-32zM718 222h36v4h-36zM312 226h32v2h-32zM314 228h30v2h-30zM720 226h34v4h-34zM314 230h32v2h-32zM806 118h24v114h-24zM878 118h26v114h-26zM316 232h32v2h-32zM722 230h32v4h-32zM318 234h30v2h-30zM724 234h30v2h-30zM318 236h32v2h-32zM320 238h30v2h-30zM726 236h28v4h-28zM320 240h32v2h-32zM322 242h32v2h-32zM728 240h26v4h-26zM324 244h30v2h-30zM324 246h32v2h-32zM730 244h24v4h-24zM732 248h22v2h-22zM252 184h24v68h-24zM326 248h32v4h-32zM404 170h22v82h-22zM474 170h26v82h-26zM566 98h24v154h-24zM656 160h24v92h-24zM734 250h20v2h-20zM806 232h98v20h-98zM108 216h102v38h-102z"/></svg><span>© 2026 Trhino GmbH · Hochbau aus Meisterhand</span><nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Karriere</a></nav></div>
 </section>
@@ -1054,6 +1094,13 @@ prog.forEach((b,i)=>b.addEventListener('click',()=>{const L=sec.offsetHeight-inn
 function tick(){const L=Math.max(1,sec.offsetHeight-innerHeight),p=cl((scrollY-sec.offsetTop)/L),s=cl(p*4.15,0,3.999);if(Math.abs(s-last)>.0003){render(s);last=s}requestAnimationFrame(tick)}
 render(0);requestAnimationFrame(tick);
 }
+
+(function(){var f=document.getElementById('cform');if(!f)return;
+f.addEventListener('submit',function(e){e.preventDefault();
+ var v=function(n){return(f.elements[n].value||'').trim()};
+ if(!v('vn')||!v('nn')||!v('mail')||!v('msg')||!f.elements.dsgvo.checked){f.reportValidity&&f.reportValidity();return}
+ var body='Name: '+v('vn')+' '+v('nn')+'\nTelefon: '+(v('tel')||'-')+'\nE-Mail: '+v('mail')+'\n\n'+v('msg');
+ location.href='mailto:info@trhino.de?subject='+encodeURIComponent('Anfrage über die Website: '+v('vn')+' '+v('nn'))+'&body='+encodeURIComponent(body)})})();
 </script>
 <noscript><p class="noscript">Bitte JavaScript aktivieren, um das 3D-Modell zu sehen.</p></noscript>
 </body>
