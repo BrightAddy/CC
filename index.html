@@ -209,6 +209,12 @@ canvas#stage{position:fixed;inset:0;z-index:2;width:100vw;height:100vh;height:10
 .cform .cb a{color:#fff}
 .cform .btn{width:100%;justify-content:center;border:0;cursor:pointer;font-family:inherit}
 @media (max-width:520px){.cform .row2{grid-template-columns:1fr}}
+@media (pointer:coarse),(max-width:860px){
+ .glass{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,255,255,.9)}
+ .outro .contact>*,.cform{-webkit-backdrop-filter:none;backdrop-filter:none}
+ .svc-bg::after{display:none}
+ body::before{background:#F4F3EE}
+}
 .foot{position:relative;max-width:1240px;margin:clamp(64px,8vw,110px) auto 0;padding-top:22px;border-top:1px solid rgba(255,255,255,.18);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;font-size:13px;color:rgba(255,255,255,.62)}
 .foot nav{display:flex;gap:20px}.foot a{color:rgba(255,255,255,.72);text-decoration:none;transition:color .2s}.foot a:hover{color:#fff}
 .foot svg{height:20px;width:auto;display:block}
@@ -459,11 +465,13 @@ const eBack=x=>{const c1=1.45,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-
 const lerp=(a,b,x)=>a+(b-a)*x;
 
 /* renderer */
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+const LOW=matchMedia('(pointer:coarse)').matches||innerWidth<860;
+let prCap=LOW?1.5:2;
+const renderer=new THREE.WebGLRenderer({canvas,antialias:!LOW,alpha:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,prCap));
 renderer.outputColorSpace=THREE.SRGBColorSpace;
 renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.0;
-renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=LOW?THREE.PCFShadowMap:THREE.PCFSoftShadowMap;
 renderer.setClearColor(0x000000,0);
 const scene=new THREE.Scene();
 const pmrem=new THREE.PMREMGenerator(renderer);
@@ -475,7 +483,7 @@ const camera=new THREE.PerspectiveCamera(30,1,.5,400);
 scene.add(new THREE.HemisphereLight(0xffffff,0xcfc8b8,.55));
 const sun=new THREE.DirectionalLight(0xffeccc,3.4);
 sun.position.set(-6,22,24); sun.castShadow=true;
-sun.shadow.mapSize.set(2048,2048); sun.shadow.bias=-.0004; sun.shadow.normalBias=.03; sun.shadow.radius=4;
+sun.shadow.mapSize.set(LOW?1024:2048,LOW?1024:2048); sun.shadow.bias=-.0004; sun.shadow.normalBias=.03; sun.shadow.radius=4;
 Object.assign(sun.shadow.camera,{left:-26,right:26,top:26,bottom:-26,near:1,far:80});
 scene.add(sun); scene.add(sun.target);
 const rim=new THREE.DirectionalLight(0xffffff,.55); rim.position.set(14,10,-18); scene.add(rim);
@@ -1033,7 +1041,7 @@ function domAt(t){
 }
 
 /* ---------- run ---------- */
-function resize(){W=canvas.clientWidth||innerWidth;H=canvas.clientHeight||innerHeight;aspect=W/H;renderer.setPixelRatio(Math.min(devicePixelRatio,W<700?1.5:2));renderer.setSize(W,H,false);camera.aspect=aspect;camera.updateProjectionMatrix();frame();layoutWord();layoutProj()}
+function resize(){W=canvas.clientWidth||innerWidth;H=canvas.clientHeight||innerHeight;aspect=W/H;renderer.setPixelRatio(Math.min(devicePixelRatio,prCap));renderer.setSize(W,H,false);camera.aspect=aspect;camera.updateProjectionMatrix();frame();layoutWord();layoutProj()}
 new ResizeObserver(resize).observe(canvas); resize();
 if('scrollRestoration' in history) history.scrollRestoration='manual'; scrollTo(0,0);
 
@@ -1053,8 +1061,13 @@ const hurry=()=>{ if(done) return; if(!started) start(); speed=5.5; };
 addEventListener('wheel',hurry,{passive:true}); addEventListener('touchstart',hurry,{passive:true});
 addEventListener('keydown',e=>{ if(['ArrowDown','PageDown','Space',' ','End'].includes(e.key)) hurry(); });
 function finishIntro(){ done=true; hero.classList.remove('intro-on'); doors.style.display='none'; document.body.classList.remove('lock'); if(lenis) lenis.start(); }
+let fpsN=0,fpsT=0,fpsLast=0;
+function adapt(now){ if(fpsLast&&now-fpsLast<250){fpsT+=now-fpsLast;fpsN++;} fpsLast=now;
+ if(fpsN>=40){const avg=fpsT/fpsN; fpsN=0;fpsT=0;
+  if(avg>26&&prCap>1){prCap=Math.max(1,prCap-.25);resize();} } }
 function loop(now){
  if(lenis) lenis.raf(now);
+ if(done) adapt(now);
  if(started){ if(lastNow!==null) tAcc+=Math.min(.1,Math.max(0,now-lastNow)/1000)*speed; lastNow=now; }
  const t=window.__fixT!==undefined?window.__fixT:RM?END:tAcc;
  scrollState();
