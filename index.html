@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trhino — Hochbau aus Meisterhand</title>
+<meta name="description" content="Trhino GmbH: Rohbau, Umbau und Porenbeton-Hallenbau aus Meisterhand. Köln, Bonn und Rhein-Sieg-Kreis.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Inter+Tight:wght@600;800&display=swap" rel="stylesheet">
+<style>
+/* VOICE  solid, precise, quiet confidence of a German Meisterbetrieb
+   IDEA   the architect's white study model: Trhino's Rohbau rises block by block on the plan
+   PICTURE real-time 3D Porenbeton house, orange tower crane, giant "Massiv." behind the shell
+   COLOUR white field, brand orange #FE9204 accent, deep green support, black ink in small doses
+   TYPE   Inter Tight 800 for the word, Inter for everything else; LAYOUT one full-screen stage */
+:root{color-scheme:light;--bg:#F6F5F1;--paper:#FFFFFF;--ink:#121212;--ink2:#4A4A46;--orange:#FE9204;--orange2:#FFA733;--green:#1E5B3E;--green2:#2F7A55;--line:rgba(18,18,18,.10);--u:1px}
+*{box-sizing:border-box;min-width:0}
+html{margin:0;background:var(--bg);scroll-behavior:auto}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+/* page wash on its own composited layer: a fixed background-attachment repaints on every scroll frame */
+body{margin:0;min-height:100%;background:var(--bg)}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(120% 90% at 62% 30%,#FFFFFF 0%,#F8F7F3 46%,#EEEDE7 100%);transform:translateZ(0)}
+body{color:var(--ink);font:400 16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+body.lock{overflow:hidden}
+.hero{position:relative;height:100svh;min-height:560px;overflow:hidden}
+.hero::after{content:"";position:absolute;inset:0;z-index:4;pointer-events:none;
+ background:radial-gradient(140% 100% at 50% 40%,transparent 62%,rgba(30,28,20,.07) 100%)}
+/* the giant word sits BEHIND the 3D canvas so the building overlaps it */
+.word{position:absolute;left:0;right:0;z-index:1;text-align:center;pointer-events:none;top:var(--wordTop,30%);transform:translateY(-100%)}
+.word h1{display:inline-block;margin:0;font:800 var(--wordSize,26vw)/.8 "Inter Tight",Inter,sans-serif;letter-spacing:-.06em;color:var(--ink);white-space:nowrap}
+.word h1 span{display:inline-block;will-change:transform,opacity}
+.word h1 .dot{color:var(--orange)}
+.kicker{position:absolute;z-index:5;left:0;right:0;margin:0 auto;width:fit-content;max-width:calc(100% - 24px);display:flex;align-items:center;gap:14px;text-align:center;font:500 13px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);top:calc(var(--wordTop,30%) - var(--wordSize,26vw)*.80);pointer-events:none;will-change:transform,opacity}
+.kicker::before,.kicker::after{content:"";width:36px;height:1px;background:rgba(18,18,18,.28)}
+.kicker b{font-weight:600;color:var(--green)}
+canvas#stage{position:fixed;inset:0;z-index:2;width:100vw;height:100vh;height:100lvh;display:block;pointer-events:none}
+/* nav */
+.nav{position:fixed;z-index:30;top:calc(28*var(--u));left:0;right:0;height:calc(56*var(--u));padding:0 calc(40*var(--u));display:flex;align-items:center;justify-content:space-between;font-size:calc(14.5*var(--u))}
+.brand{display:flex;align-items:center;gap:calc(12*var(--u));text-decoration:none;color:var(--ink);height:100%;padding:0 calc(18*var(--u));border-radius:999px}
+.brand svg{height:calc(30*var(--u));width:auto;display:block}
+.glass{background:rgba(255,255,255,.58);-webkit-backdrop-filter:blur(18px) saturate(1.6);backdrop-filter:blur(18px) saturate(1.6);box-shadow:inset 0 0 0 1px rgba(255,255,255,.85),0 1px 0 rgba(255,255,255,.9) inset,0 10px 30px -12px rgba(20,20,10,.18),0 0 0 1px rgba(18,18,18,.06)}
+.pill{position:absolute;left:50%;transform:translateX(-50%);height:100%;display:flex;align-items:center;gap:calc(4*var(--u));padding:calc(6*var(--u));border-radius:999px}
+.pill a{display:flex;align-items:center;height:calc(44*var(--u));padding:0 calc(20*var(--u));border-radius:999px;color:var(--ink2);text-decoration:none;font-weight:500;transition:background .25s,color .25s;white-space:nowrap}
+.pill a:hover{background:rgba(18,18,18,.06);color:var(--ink)}
+.pill a.on{background:var(--ink);color:#fff}
+.right{display:flex;align-items:center;gap:calc(10*var(--u));height:100%}
+.tel{display:flex;align-items:center;gap:calc(8*var(--u));height:100%;padding:0 calc(18*var(--u));border-radius:999px;color:var(--ink);text-decoration:none;font-weight:500;white-space:nowrap}
+.tel i{width:8px;height:8px;border-radius:50%;background:var(--green2);box-shadow:0 0 0 4px rgba(47,122,85,.16)}
+.btn{display:inline-flex;align-items:center;gap:10px;height:calc(56*var(--u));padding:0 calc(26*var(--u));border-radius:999px;border:0;font:600 calc(14.5*var(--u))/1 Inter,sans-serif;text-decoration:none;cursor:pointer;white-space:nowrap;transition:transform .25s,background .25s,box-shadow .25s}
+.btn.o{background:var(--orange);color:var(--ink);box-shadow:0 10px 24px -10px rgba(254,146,4,.7),inset 0 1px 0 rgba(255,255,255,.45)}
+.btn.o:hover{background:var(--orange2);transform:translateY(-1px)}
+.btn svg{width:16px;height:16px}
+.btn:focus-visible,.pill a:focus-visible,.tel:focus-visible,.brand:focus-visible{outline:2px solid var(--green2);outline-offset:3px}
+/* lower block */
+.lower{position:absolute;z-index:6;left:calc(40*var(--u));right:calc(40*var(--u));bottom:calc(36*var(--u));display:flex;align-items:flex-end;justify-content:space-between;gap:24px;pointer-events:none}
+.lower>*{pointer-events:auto}
+.intro{max-width:calc(450*var(--u))}
+.intro p{margin:0 0 calc(20*var(--u));font-size:calc(16*var(--u));line-height:1.55;color:var(--ink2)}
+.intro p strong{color:var(--ink);font-weight:600}
+.ctas{display:flex;gap:10px;flex-wrap:nowrap}
+.btn.g{color:var(--ink)}
+.btn.g:hover{transform:translateY(-1px)}
+.facts{display:flex;gap:0;flex-wrap:nowrap;justify-content:flex-end;padding:4px;border-radius:22px}
+.fact{display:flex;flex-direction:column;gap:4px;padding:calc(14*var(--u)) calc(22*var(--u));min-width:calc(150*var(--u))}
+.fact+.fact{box-shadow:inset 1px 0 0 rgba(18,18,18,.08)}
+.fact b,.fact span{white-space:nowrap}
+@media (min-width:861px) and (max-width:1240px){.fact:nth-child(3){display:none}}
+.fact b{font:600 calc(20*var(--u))/1.1 "Inter Tight",Inter,sans-serif;letter-spacing:-.01em}
+.fact b em{font-style:normal;color:var(--orange)}
+.fact span{font-size:calc(13*var(--u));color:var(--ink2)}
+.fact.gr b{color:var(--green)}
+.scroll-cue{position:absolute;z-index:6;left:50%;bottom:calc(28*var(--u));transform:translateX(-50%);width:26px;height:42px;border-radius:14px;border:1.5px solid rgba(18,18,18,.35)}
+.scroll-cue::after{content:"";position:absolute;left:50%;top:9px;width:3px;height:8px;margin-left:-1.5px;border-radius:2px;background:var(--orange);animation:cue 1.8s ease-in-out infinite}
+@keyframes cue{0%{transform:translateY(0);opacity:1}70%{transform:translateY(12px);opacity:0}100%{opacity:0}}
+/* opening doors: split on a horizontal seam, like the T-beam of the logo */
+.doors{position:absolute;inset:0;z-index:20;pointer-events:none}
+.door{position:absolute;left:0;right:0;height:50.2%;background:#FFFFFF}
+.door.t{top:0;box-shadow:0 1px 0 rgba(18,18,18,.06)}
+.door.b{bottom:0}
+.seam{position:absolute;left:50%;top:50%;height:2px;width:100%;margin-top:-1px;background:var(--orange);transform:translateX(-50%) scaleX(0);transform-origin:50% 50%}
+.doorlogo{position:absolute;left:50%;top:50%;width:min(300px,52vw);transform:translate(-50%,-50%);opacity:0}
+.doorlogo svg{width:100%;height:auto;display:block}
+.intro-on .nav,.intro-on .lower>*,.intro-on .scroll-cue,.intro-on .word h1 span,.intro-on .kicker{opacity:0}
+.noscript{position:absolute;inset:auto 0 40% 0;text-align:center;z-index:30}
+/* small screens */
+@media (max-width:860px){
+ :root{--u:1px}
+ .nav{top:14px;padding:0 14px;height:auto;flex-wrap:wrap;row-gap:10px}
+ .brand{height:50px;padding:0 16px}.brand svg{height:24px}
+ .right{height:50px}.tel{display:none}
+ .btn{height:46px;padding:0 18px;font-size:14px}
+ .pill{position:static;transform:none;order:3;width:100%;height:50px;justify-content:space-between}
+ .pill a{height:38px;padding:0 10px;font-size:13px;flex:1;justify-content:center}
+ .lower{left:0;right:0;bottom:0;padding:48px 16px 18px;flex-direction:column;align-items:stretch;background:linear-gradient(rgba(246,245,241,0),rgba(246,245,241,.94) 26%)}
+ .kicker .k2{display:none}
+ .intro{max-width:none}.intro p{font-size:15px;margin-bottom:14px}
+ .facts{justify-content:flex-start}.fact{min-width:0;flex:1;padding:10px 12px}.fact b{font-size:16px}.fact span{font-size:12px}
+ .scroll-cue{display:none}
+}
+@media (max-width:380px){.pill a{font-size:12px;padding:0 6px}.fact:nth-child(3){display:none}}
+@media (max-height:520px) and (orientation:landscape){
+ .nav{top:10px;height:44px}.brand svg{height:20px}.pill a{height:34px;font-size:12.5px;padding:0 12px}.btn{height:40px;font-size:13px}
+ .lower{bottom:12px;background:none;padding:0 16px}.intro p{display:none}.facts{display:none}.scroll-cue{display:none}
+ .pill{position:absolute;left:50%;transform:translateX(-50%);width:auto;order:0;height:44px}.pill a{flex:none}.nav{flex-wrap:nowrap}
+}
+@media (prefers-reduced-motion:reduce){.scroll-cue::after{animation:none}}
+/* ---------- section 2: Leistungen, the model comes apart layer by layer ---------- */
+.svc{position:relative;height:620vh;z-index:3}
+.sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+.svc-text{position:absolute;left:calc(40*var(--u));top:50%;width:min(540px,40vw);transform:translateY(-44%)}
+.svc-head{margin:0 0 26px}
+.svc-head .lbl{display:inline-flex;align-items:center;gap:8px;font-weight:500;font-size:14px;color:var(--green);margin-bottom:14px}
+.svc-head .lbl i{width:22px;height:2px;background:var(--orange);display:block}
+.svc-head h2{margin:0;font:800 clamp(40px,4.6vw,66px)/.98 "Inter Tight",Inter,sans-serif;letter-spacing:-.04em;text-wrap:balance}
+.rail{display:flex;gap:6px;margin:0 0 26px;flex-wrap:wrap}
+.rail button{all:unset;cursor:pointer;position:relative;font:500 12.5px/1 Inter,sans-serif;color:var(--ink2);padding:10px 12px;border-radius:999px;background:rgba(255,255,255,.55);box-shadow:inset 0 0 0 1px rgba(18,18,18,.08);transition:background .3s,color .3s,box-shadow .3s;overflow:hidden}
+.rail button b{position:absolute;left:0;bottom:0;height:2px;background:var(--orange);width:0}
+.rail button.on{background:var(--ink);color:#fff;box-shadow:none}
+.rail button:focus-visible{outline:2px solid var(--green2);outline-offset:2px}
+.steps{position:relative;min-height:300px}
+.step{position:absolute;inset:0 0 auto 0;opacity:0;pointer-events:none}
+.step.on{pointer-events:auto}
+.step h3{margin:0 0 12px;font:600 clamp(24px,2.3vw,32px)/1.1 "Inter Tight",Inter,sans-serif;letter-spacing:-.02em}
+.step p{margin:0 0 18px;color:var(--ink2);font-size:16.5px;line-height:1.6;max-width:46ch}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0;padding:0;list-style:none}
+.chips li{font-size:13px;font-weight:500;padding:7px 12px;border-radius:999px;background:#fff;box-shadow:inset 0 0 0 1px rgba(18,18,18,.08)}
+.chips li:first-child{color:var(--green);box-shadow:inset 0 0 0 1px rgba(30,91,62,.3)}
+.step .btn{margin-top:22px;height:52px}
+.count{position:absolute;right:calc(40*var(--u));bottom:calc(36*var(--u));font:500 13px/1 Inter,sans-serif;color:var(--ink2);display:flex;align-items:center;gap:12px}
+.count .bar{width:120px;height:2px;background:rgba(18,18,18,.12);border-radius:2px;overflow:hidden}
+.count .bar i{display:block;height:100%;width:0;background:var(--orange)}
+.labels{position:absolute;inset:0;pointer-events:none}
+.tag{position:absolute;left:0;top:0;display:flex;align-items:center;gap:10px;opacity:0;white-space:nowrap;will-change:transform}
+.tag::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 4px rgba(254,146,4,.18)}
+.tag span{font:500 13px/1 Inter,sans-serif;padding:8px 12px;border-radius:999px}
+.tag span em{font-style:normal;color:var(--ink2);margin-left:6px}
+/* labels move every frame over the WebGL canvas: a live backdrop blur under each one is the costliest thing on the page */
+.tag span.glass{-webkit-backdrop-filter:none;backdrop-filter:none;background:rgba(255,255,255,.92)}
+.svc-text,.count,.gantt,.labels,.proj-head,.track,.places{will-change:opacity}
+.gantt{position:absolute;right:calc(40*var(--u));top:calc(118*var(--u));width:min(400px,34vw);padding:18px 20px 16px;border-radius:20px;opacity:0}
+.gantt h4{margin:0 0 4px;font:600 15px/1.2 Inter,sans-serif}
+.gantt small{display:block;font-size:12.5px;color:var(--ink2);margin-bottom:12px}
+.g-row{display:grid;grid-template-columns:96px minmax(0,1fr);align-items:center;gap:10px;font-size:13px;height:26px}
+.g-row .tr{position:relative;height:8px;border-radius:5px;background:rgba(18,18,18,.06)}
+.g-row .tr i{position:absolute;top:0;bottom:0;border-radius:5px;background:var(--ink)}
+.g-row.hot .tr i{background:var(--orange)}
+.g-row.ok .tr i{background:var(--green2)}
+.g-foot{display:flex;justify-content:space-between;margin-top:8px;font-size:11.5px;color:var(--ink2)}
+.outro{position:relative;z-index:3;background:var(--paper);padding:clamp(64px,9vw,120px) max(5vw,16px) 40px;box-shadow:0 -40px 80px -40px rgba(20,20,10,.12)}
+.outro .in{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:40px;align-items:end}
+.outro h2{margin:0;font:800 clamp(40px,6vw,88px)/.95 "Inter Tight",Inter,sans-serif;letter-spacing:-.045em;text-wrap:balance}
+.outro h2 span{color:var(--orange)}
+.outro p{margin:0 0 22px;color:var(--ink2);font-size:17px}
+.outro .contact{display:grid;gap:4px;margin:0 0 24px;font-size:16px}
+.outro .contact a{color:var(--ink);text-decoration:none;font-weight:500}
+.foot{max-width:1240px;margin:72px auto 0;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2)}
+.foot nav{display:flex;gap:18px}.foot a{color:var(--ink2);text-decoration:none}.foot a:hover{color:var(--ink)}
+.foot svg{height:18px;width:auto;display:block}
+@media (max-width:860px){
+ .svc{height:600vh}
+ .svc-text{left:0;right:0;top:auto;bottom:0;width:auto;transform:none;padding:56px 16px 22px;background:linear-gradient(rgba(246,245,241,0),rgba(246,245,241,.96) 20%)}
+ .svc-head{margin-bottom:14px}.svc-head .lbl{margin-bottom:8px}.svc-head h2{font-size:34px}
+ .rail{flex-wrap:nowrap;overflow-x:auto;margin:0 -16px 16px;padding:0 16px;scrollbar-width:none}.rail::-webkit-scrollbar{display:none}.rail button{flex:none}
+ .steps{min-height:230px}.step p{font-size:15px;margin-bottom:12px}.step .btn{margin-top:14px;height:46px}
+ .count{display:none}
+ .gantt{left:16px;right:16px;width:auto;top:132px;padding:14px 16px}
+ .tag span{font-size:12px;padding:6px 10px}.tag span em{display:none}
+ .outro .in{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-height:520px) and (orientation:landscape){.svc-text{top:auto;bottom:10px;transform:none}.svc-head h2{font-size:28px}.steps{min-height:150px}.step p{display:none}.gantt{display:none}}
+
+/* ---------- section 3: Projekte, from model to reality ---------- */
+.proj{position:relative;height:460vh;z-index:3}
+.proj .sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+.proj-head{position:absolute;left:calc(40*var(--u));top:calc(118*var(--u));max-width:560px}
+.proj-head .lbl{display:inline-flex;align-items:center;gap:8px;font-weight:500;font-size:14px;color:var(--green);margin-bottom:12px}
+.proj-head .lbl i{width:22px;height:2px;background:var(--orange);display:block}
+.proj-head h2{margin:0;font:800 clamp(36px,4.2vw,60px)/.98 "Inter Tight",Inter,sans-serif;letter-spacing:-.04em;text-wrap:balance}
+.track{position:absolute;left:0;top:57%;display:flex;align-items:flex-start;gap:clamp(28px,7vw,120px);padding:0 calc((100vw - var(--cw))/2);will-change:transform}
+.proj{--cw:min(560px,84vw)}
+.card{flex:none;width:var(--cw);margin:0}
+.ph{position:relative;aspect-ratio:3/2;border-radius:26px;overflow:hidden;background:#E9E7E0;box-shadow:0 40px 80px -40px rgba(20,20,10,.45),0 2px 6px rgba(20,20,10,.06);will-change:clip-path}
+.ph img{position:absolute;inset:-6%;width:112%;height:112%;object-fit:cover;display:block;will-change:transform}
+.ph::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35);pointer-events:none}
+.ph .pin{position:absolute;left:16px;top:16px;z-index:2;display:inline-flex;align-items:center;gap:8px;font:500 13px/1 Inter,sans-serif;padding:9px 13px;border-radius:999px;color:var(--ink)}
+.ph .pin::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.cap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px 24px;align-items:end;padding:22px 4px 0}
+.cap h3{margin:0;font:600 clamp(22px,2vw,28px)/1.1 "Inter Tight",Inter,sans-serif;letter-spacing:-.02em}
+.cap p{grid-column:1/-1;margin:0;color:var(--ink2);font-size:15.5px;max-width:52ch}
+.cap .where{font-size:13.5px;font-weight:500;color:var(--green)}
+.cap .chips{grid-column:1/-1;margin-top:10px}
+.card.more{align-self:stretch;display:flex}
+.more a{flex:1;display:flex;flex-direction:column;justify-content:space-between;aspect-ratio:3/2;border-radius:26px;padding:clamp(24px,3vw,40px);background:var(--green);color:#fff;text-decoration:none;box-shadow:0 40px 80px -40px rgba(20,60,40,.6);position:relative;overflow:hidden}
+.more a::after{content:"";position:absolute;right:-60px;bottom:-60px;width:260px;height:260px;border-radius:50%;border:2px solid rgba(254,146,4,.9)}
+.more small{font-size:14px;opacity:.8}
+.more strong{font:800 clamp(32px,3.6vw,52px)/.98 "Inter Tight",Inter,sans-serif;letter-spacing:-.035em;max-width:11ch}
+.more span{display:inline-flex;align-items:center;gap:10px;align-self:flex-start;height:52px;padding:0 24px;border-radius:999px;background:var(--orange);color:var(--ink);font-weight:600;font-size:14.5px}
+.places{position:absolute;left:calc(40*var(--u));right:calc(40*var(--u));bottom:calc(32*var(--u));display:flex;align-items:center;gap:18px;font-size:13.5px;color:var(--ink2)}
+.places b{font-weight:500;transition:color .3s}.places b.on{color:var(--ink)}
+.places .bar{flex:1;max-width:220px;height:2px;background:rgba(18,18,18,.12);border-radius:2px;overflow:hidden;margin-left:auto}
+.places .bar i{display:block;height:100%;width:0;background:var(--orange)}
+@media (min-width:861px) and (max-height:880px){.cap .chips{display:none}.cap p{font-size:14.5px}}
+@media (max-width:860px){.proj-head{left:16px;right:16px;top:140px}.proj-head h2{font-size:32px}.track{top:47%}.cap p{font-size:14.5px}.places{left:16px;right:16px;bottom:18px;gap:12px;font-size:12.5px}.places .bar{display:none}}
+@media (max-height:520px) and (orientation:landscape){.proj-head{top:64px}.proj-head h2{font-size:26px}.track{top:40%}.proj{--cw:min(380px,60vw)}.cap p,.cap .chips{display:none}}
+
+/* ---------- section 4: Ablauf, real Trhino photographs, editorial ---------- */
+.flow{position:relative;height:470vh;z-index:3;background:var(--paper)}
+.flow .sticky{position:sticky;top:0;height:100svh;overflow:hidden;background:var(--paper)}
+.stage{position:absolute;top:calc(104*var(--u));bottom:calc(32*var(--u));left:45%;right:calc(40*var(--u));border-radius:28px;overflow:hidden;background:#E9E7E0;box-shadow:0 50px 90px -50px rgba(20,20,10,.45)}
+.shot{position:absolute;inset:0;overflow:hidden;will-change:clip-path}
+.shot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;will-change:transform,filter;transform-origin:50% 60%}
+.shot::after{content:"";position:absolute;inset:auto 0 0 0;height:38%;background:linear-gradient(transparent,rgba(10,10,8,.38));pointer-events:none}
+.stage .cap{position:absolute;left:20px;bottom:20px;z-index:5;display:flex;align-items:center;gap:10px;padding:10px 16px;border-radius:999px;font:500 13.5px/1 Inter,sans-serif;color:var(--ink)}
+.stage .cap::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.stage .cnt{position:absolute;right:20px;top:20px;z-index:5;padding:10px 14px;border-radius:999px;font:600 13px/1 Inter,sans-serif;font-variant-numeric:tabular-nums;color:var(--ink)}
+.stage .cnt span{color:var(--ink2);font-weight:500}
+.ftext{position:absolute;left:calc(40*var(--u));top:calc(118*var(--u));bottom:calc(40*var(--u));width:calc(45% - 40px*2);display:flex;flex-direction:column}
+.ftext .lbl{display:inline-flex;align-items:center;gap:8px;font-weight:500;font-size:14px;color:var(--green);margin-bottom:12px}
+.ftext .lbl i{width:22px;height:2px;background:var(--orange);display:block}
+.ftext h2{margin:0;font:800 clamp(28px,2.6vw,38px)/1.02 "Inter Tight",Inter,sans-serif;letter-spacing:-.035em;max-width:16ch}
+.fprog{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:30px 0 0}
+.fprog button{all:unset;cursor:pointer;display:flex;flex-direction:column;gap:10px;font:500 13px/1.2 Inter,sans-serif;color:#9A968D;transition:color .3s}
+.fprog button i{display:block;height:2px;background:rgba(18,18,18,.12);border-radius:2px;overflow:hidden}
+.fprog button i b{display:block;height:100%;width:0;background:var(--orange)}
+.fprog button.on,.fprog button.done{color:var(--ink)}
+.fprog button:focus-visible{outline:2px solid var(--green2);outline-offset:4px;border-radius:4px}
+.fbody{margin-top:auto;position:relative}
+.fmeta{position:relative;height:20px;overflow:hidden;margin-bottom:14px}
+.fmeta span{position:absolute;left:0;top:0;font:500 14px/20px Inter,sans-serif;color:var(--green)}
+.ftitle{position:relative;height:2.1em;font:700 clamp(36px,3.9vw,60px)/1.02 "Inter Tight",Inter,sans-serif;letter-spacing:-.04em;overflow:hidden;margin-bottom:18px}
+.ftitle h3{position:absolute;left:0;right:0;top:0;margin:0;font:inherit;letter-spacing:inherit;text-wrap:balance;will-change:transform}
+.fpara{position:relative;min-height:128px}
+.fpara>div{position:absolute;left:0;right:0;top:0}
+.fpara p{margin:0 0 18px;color:var(--ink2);font-size:16.5px;line-height:1.62;max-width:48ch}
+.facts2{display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;list-style:none}
+.facts2 li{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;padding:9px 14px;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px rgba(18,18,18,.07)}
+.facts2 li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--green2)}
+@media (max-width:860px){
+ .stage{top:132px;bottom:auto;height:44svh;left:16px;right:16px;border-radius:22px}
+ .ftext{left:16px;right:16px;width:auto;top:calc(132px + 44svh + 18px);bottom:16px}
+ .ftext .lbl,.ftext h2{display:none}
+ .fprog{margin:0}.fprog button{font-size:12px;gap:8px}
+ .fbody{margin-top:18px}.ftitle{font-size:30px;margin-bottom:10px}.fmeta{margin-bottom:8px}
+ .fpara p{font-size:15px;margin-bottom:12px}.facts2 li{font-size:12.5px;padding:7px 11px}
+}
+@media (max-height:520px) and (orientation:landscape){.stage{top:62px;bottom:12px}.ftext{top:62px;bottom:12px}.ftext h2,.fpara p{display:none}.ftitle{font-size:28px}}
+
+
+
+</style>
+</head>
+<body class="lock">
+<main class="hero intro-on" id="hero">
+ <div class="kicker" id="kicker">Rohbau · Umbau · Porenbeton-Hallenbau <span class="k2"> · <b>Meisterbetrieb</b> aus Sankt Augustin</span></div>
+ <div class="word" id="word"><h1 aria-label="Massiv."><span>M</span><span>a</span><span>s</span><span>s</span><span>i</span><span>v</span><span class="dot">.</span></h1></div>
+ <canvas id="stage" aria-label="3D-Modell: ein Einfamilienhaus entsteht Stein für Stein aus Porenbeton und wird fertig verputzt, mit Ziegeldach, Fenstern und Garten; daneben ein Turmdrehkran" role="img"></canvas>
+
+ <nav class="nav" aria-label="Hauptnavigation">
+  <a class="brand glass" href="#" aria-label="Trhino GmbH – Startseite"><svg viewBox="0 0 904 254" role="img" aria-hidden="true"><path fill="#FE9204" d="M0 0h904v26h-904zM0 26h28v14h-28zM876 26h28v14h-28zM568 40h20v2h-20zM566 42h24v20h-24zM0 40h560v24h-560zM568 62h20v2h-20zM596 40h308v24h-308zM656 98h24v4h-24zM656 102h26v2h-26zM656 104h28v4h-28zM656 108h30v4h-30zM656 112h32v4h-32zM252 98h92v20h-92zM656 116h34v2h-34zM806 98h98v20h-98zM656 118h36v4h-36zM656 122h38v4h-38zM656 126h40v2h-40zM656 128h42v4h-42zM840 132h30v2h-30zM656 132h44v4h-44zM656 136h46v4h-46zM656 140h48v2h-48zM656 142h50v4h-50zM852 134h4v12h-4zM840 146h30v2h-30zM404 98h22v52h-22zM474 98h26v52h-26zM656 146h52v4h-52zM868 148h2v2h-2zM656 150h54v4h-54zM656 154h56v2h-56zM850 154h18v2h-18zM846 156h6v2h-6zM864 156h6v2h-6zM656 156h58v4h-58zM846 158h4v2h-4zM846 160h2v2h-2zM868 158h2v4h-2zM252 118h24v46h-24zM318 118h26v46h-26zM682 160h34v4h-34zM848 162h2v2h-2zM866 162h4v2h-4zM684 164h34v2h-34zM838 164h30v2h-30zM838 166h32v2h-32zM404 150h96v20h-96zM686 166h34v4h-34zM688 170h34v4h-34zM848 172h22v2h-22zM846 174h24v2h-24zM690 174h34v4h-34zM692 178h34v2h-34zM728 98h26v82h-26zM846 176h2v4h-2zM848 180h2v2h-2zM252 164h92v20h-92zM694 180h60v4h-60zM850 182h20v2h-20zM286 184h32v2h-32zM846 184h24v2h-24zM288 186h30v2h-30zM696 184h58v4h-58zM288 188h32v2h-32zM846 186h2v4h-2zM290 190h32v2h-32zM698 188h56v4h-56zM848 190h2v2h-2zM292 192h30v2h-30zM700 192h54v2h-54zM850 192h20v2h-20zM292 194h32v2h-32zM846 194h24v2h-24zM702 194h52v4h-52zM294 196h32v4h-32zM296 200h32v2h-32zM704 198h50v4h-50zM844 200h6v2h-6zM854 200h16v2h-16zM298 202h30v2h-30zM842 202h8v2h-8zM854 202h12v2h-12zM298 204h32v2h-32zM706 202h48v4h-48zM840 204h4v2h-4zM866 204h2v2h-2zM300 206h32v2h-32zM708 206h46v2h-46zM840 206h2v2h-2zM866 206h4v2h-4zM302 208h30v2h-30zM854 204h2v6h-2zM302 210h32v2h-32zM710 208h44v4h-44zM838 208h4v4h-4zM868 208h2v4h-2zM138 64h40v150h-40zM304 212h30v2h-30zM840 212h2v2h-2zM138 214h42v2h-42zM304 214h32v2h-32zM712 212h42v4h-42zM840 214h4v2h-4zM866 212h4v4h-4zM306 216h32v2h-32zM842 216h4v2h-4zM862 216h6v2h-6zM308 218h30v2h-30zM714 216h40v4h-40zM844 218h22v2h-22zM308 220h32v2h-32zM716 220h38v2h-38zM852 220h4v2h-4zM310 222h32v4h-32zM718 222h36v4h-36zM312 226h32v2h-32zM314 228h30v2h-30zM720 226h34v4h-34zM314 230h32v2h-32zM806 118h24v114h-24zM878 118h26v114h-26zM316 232h32v2h-32zM722 230h32v4h-32zM318 234h30v2h-30zM724 234h30v2h-30zM318 236h32v2h-32zM320 238h30v2h-30zM726 236h28v4h-28zM320 240h32v2h-32zM322 242h32v2h-32zM728 240h26v4h-26zM324 244h30v2h-30zM324 246h32v2h-32zM730 244h24v4h-24zM732 248h22v2h-22zM252 184h24v68h-24zM326 248h32v4h-32zM404 170h22v82h-22zM474 170h26v82h-26zM566 98h24v154h-24zM656 160h24v92h-24zM734 250h20v2h-20zM806 232h98v20h-98zM108 216h102v38h-102z"/></svg></a>
+  <div class="pill glass">
+   <a class="on" href="#">Home</a><a href="#">Über uns</a><a href="#">Leistungen</a><a href="#">Projekte</a><a href="#">Jobs</a>
+  </div>
+  <div class="right">
+   <a class="btn o" href="#">Projekt anfragen<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+  </div>
+ </nav>
+
+ <div class="lower">
+  <div class="intro">
+   <p><strong>Hochbau aus Meisterhand.</strong> Vom Fundament bis zum Dachstuhl bauen wir massiv, präzise und termintreu – für Privat- und Gewerbekunden in Köln, Bonn und im Rhein-Sieg-Kreis.</p>
+   <div class="ctas">
+    <a class="btn o" href="#">Kostenloses Angebot<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+    <a class="btn g glass" href="#">Unsere Projekte</a>
+   </div>
+  </div>
+  <div class="facts glass">
+   <div class="fact gr"><b>Meisterbetrieb</b><span>Handwerk mit Brief und Siegel</span></div>
+   <div class="fact"><b>48<em> h</em></b><span>bis zu Ihrem Angebot</span></div>
+   <div class="fact"><b>NRW</b><span>Köln · Bonn · Rhein-Sieg</span></div>
+  </div>
+ </div>
+ <div class="scroll-cue" aria-hidden="true"></div>
+
+ <div class="doors" id="doors" aria-hidden="true">
+  <div class="door t" id="doorT"></div><div class="door b" id="doorB"></div>
+  <div class="seam" id="seam"></div>
+  <div class="doorlogo" id="doorLogo"><svg viewBox="0 0 904 254"><path fill="#FE9204" d="M0 0h904v26h-904zM0 26h28v14h-28zM876 26h28v14h-28zM568 40h20v2h-20zM566 42h24v20h-24zM0 40h560v24h-560zM568 62h20v2h-20zM596 40h308v24h-308zM656 98h24v4h-24zM656 102h26v2h-26zM656 104h28v4h-28zM656 108h30v4h-30zM656 112h32v4h-32zM252 98h92v20h-92zM656 116h34v2h-34zM806 98h98v20h-98zM656 118h36v4h-36zM656 122h38v4h-38zM656 126h40v2h-40zM656 128h42v4h-42zM840 132h30v2h-30zM656 132h44v4h-44zM656 136h46v4h-46zM656 140h48v2h-48zM656 142h50v4h-50zM852 134h4v12h-4zM840 146h30v2h-30zM404 98h22v52h-22zM474 98h26v52h-26zM656 146h52v4h-52zM868 148h2v2h-2zM656 150h54v4h-54zM656 154h56v2h-56zM850 154h18v2h-18zM846 156h6v2h-6zM864 156h6v2h-6zM656 156h58v4h-58zM846 158h4v2h-4zM846 160h2v2h-2zM868 158h2v4h-2zM252 118h24v46h-24zM318 118h26v46h-26zM682 160h34v4h-34zM848 162h2v2h-2zM866 162h4v2h-4zM684 164h34v2h-34zM838 164h30v2h-30zM838 166h32v2h-32zM404 150h96v20h-96zM686 166h34v4h-34zM688 170h34v4h-34zM848 172h22v2h-22zM846 174h24v2h-24zM690 174h34v4h-34zM692 178h34v2h-34zM728 98h26v82h-26zM846 176h2v4h-2zM848 180h2v2h-2zM252 164h92v20h-92zM694 180h60v4h-60zM850 182h20v2h-20zM286 184h32v2h-32zM846 184h24v2h-24zM288 186h30v2h-30zM696 184h58v4h-58zM288 188h32v2h-32zM846 186h2v4h-2zM290 190h32v2h-32zM698 188h56v4h-56zM848 190h2v2h-2zM292 192h30v2h-30zM700 192h54v2h-54zM850 192h20v2h-20zM292 194h32v2h-32zM846 194h24v2h-24zM702 194h52v4h-52zM294 196h32v4h-32zM296 200h32v2h-32zM704 198h50v4h-50zM844 200h6v2h-6zM854 200h16v2h-16zM298 202h30v2h-30zM842 202h8v2h-8zM854 202h12v2h-12zM298 204h32v2h-32zM706 202h48v4h-48zM840 204h4v2h-4zM866 204h2v2h-2zM300 206h32v2h-32zM708 206h46v2h-46zM840 206h2v2h-2zM866 206h4v2h-4zM302 208h30v2h-30zM854 204h2v6h-2zM302 210h32v2h-32zM710 208h44v4h-44zM838 208h4v4h-4zM868 208h2v4h-2zM138 64h40v150h-40zM304 212h30v2h-30zM840 212h2v2h-2zM138 214h42v2h-42zM304 214h32v2h-32zM712 212h42v4h-42zM840 214h4v2h-4zM866 212h4v4h-4zM306 216h32v2h-32zM842 216h4v2h-4zM862 216h6v2h-6zM308 218h30v2h-30zM714 216h40v4h-40zM844 218h22v2h-22zM308 220h32v2h-32zM716 220h38v2h-38zM852 220h4v2h-4zM310 222h32v4h-32zM718 222h36v4h-36zM312 226h32v2h-32zM314 228h30v2h-30zM720 226h34v4h-34zM314 230h32v2h-32zM806 118h24v114h-24zM878 118h26v114h-26zM316 232h32v2h-32zM722 230h32v4h-32zM318 234h30v2h-30zM724 234h30v2h-30zM318 236h32v2h-32zM320 238h30v2h-30zM726 236h28v4h-28zM320 240h32v2h-32zM322 242h32v2h-32zM728 240h26v4h-26zM324 244h30v2h-30zM324 246h32v2h-32zM730 244h24v4h-24zM732 248h22v2h-22zM252 184h24v68h-24zM326 248h32v4h-32zM404 170h22v82h-22zM474 170h26v82h-26zM566 98h24v154h-24zM656 160h24v92h-24zM734 250h20v2h-20zM806 232h98v20h-98zM108 216h102v38h-102z"/></svg></div>
+ </div>
+</main>
+
+<section class="svc" id="leistungen" aria-label="Leistungen">
+ <div class="sticky">
+  <div class="labels" id="labels" aria-hidden="true">
+   <div class="tag" data-a="roof"><span class="glass">Dachstuhl<em>Holz, abgebunden</em></span></div>
+   <div class="tag" data-a="s2"><span class="glass">Stahlbetondecke<em>Obergeschoss</em></span></div>
+   <div class="tag" data-a="w2"><span class="glass">Mauerwerk<em>Porenbeton, OG</em></span></div>
+   <div class="tag" data-a="s1"><span class="glass">Stahlbetondecke<em>Erdgeschoss</em></span></div>
+   <div class="tag" data-a="w1"><span class="glass">Mauerwerk<em>Porenbeton, EG</em></span></div>
+   <div class="tag" data-a="beam" data-beam="1"><span class="glass">Stahlträger HEB 260<em>Abfangung über dem Durchbruch</em></span></div>
+   <div class="tag" data-a="fd"><span class="glass">Fundament &amp; Bodenplatte<em>Stahlbeton</em></span></div>
+  </div>
+  <div class="gantt glass" id="gantt">
+   <h4>Bauzeitenplan</h4><small>Beispielprojekt Einfamilienhaus, 26 Wochen</small>
+   <div class="g-row ok"><span>Planung</span><div class="tr"><i data-s="0" data-e="18"></i></div></div>
+   <div class="g-row ok"><span>Genehmigung</span><div class="tr"><i data-s="12" data-e="34"></i></div></div>
+   <div class="g-row"><span>Erdarbeiten</span><div class="tr"><i data-s="30" data-e="45"></i></div></div>
+   <div class="g-row hot"><span>Rohbau</span><div class="tr"><i data-s="42" data-e="80"></i></div></div>
+   <div class="g-row"><span>Dachstuhl</span><div class="tr"><i data-s="76" data-e="90"></i></div></div>
+   <div class="g-row"><span>Übergabe</span><div class="tr"><i data-s="90" data-e="100"></i></div></div>
+   <div class="g-foot"><span>KW 1</span><span>KW 13</span><span>KW 26</span></div>
+  </div>
+  <div class="svc-text">
+   <div class="svc-head"><div class="lbl"><i></i>Leistungen</div><h2>Schicht für Schicht.</h2></div>
+   <div class="rail" role="tablist" aria-label="Leistungen">
+    <button data-i="0">Rohbau<b></b></button><button data-i="1">Umbau<b></b></button><button data-i="2">Hallenbau<b></b></button><button data-i="3">Projektmanagement<b></b></button><button data-i="4">Baunebenleistungen<b></b></button>
+   </div>
+   <div class="steps">
+    <article class="step"><h3>Rohbau, der trägt.</h3><p>Erdarbeiten und Fundamente, Beton und Stahlbeton, Mauerwerk und tragende Konstruktionen. Wir errichten Ihr Gebäude Schicht für Schicht, jede davon vom Meister geprüft.</p><ul class="chips"><li>Erdarbeiten &amp; Fundamente</li><li>Beton &amp; Stahlbeton</li><li>Mauerwerk</li><li>Stahlbau</li></ul></article>
+    <article class="step"><h3>Raum schaffen, Statik sichern.</h3><p>Wand- und Deckendurchbrüche, Anbauten und Grundrissänderungen. Mit Stahlträgern sauber abgefangen, damit Ihr Bestand neue Wege gehen kann.</p><ul class="chips"><li>Durchbrüche</li><li>Anbauten</li><li>Grundrissänderung</li><li>Stahlträger</li></ul></article>
+    <article class="step"><h3>Hallen aus Porenbeton.</h3><p>Wir errichten Industrie- und Gewerbehallen aus Porenbeton und reparieren bestehende: Fugen, Fassaden- und Deckenplatten, schnell und mit wenig Stillstand.</p><ul class="chips"><li>Hallenneubau</li><li>Fugensanierung</li><li>Fassadenplatten</li><li>Deckenplatten</li></ul></article>
+    <article class="step"><h3>Ein Plan. Ein Ansprechpartner.</h3><p>Planung, Terminierung und Kostenkontrolle aus einer Hand. Wir koordinieren Bauherren, Planer und Behörden, damit Ihr Projekt im Zeitplan bleibt.</p><ul class="chips"><li>Terminplanung</li><li>Kostenkontrolle</li><li>Koordination</li><li>Behörden</li></ul></article>
+    <article class="step"><h3>Alles rund um die Baustelle.</h3><p>Baustelleneinrichtung, Abbruch und Entsorgung, Abdichtung und Dämmung. Damit auf Ihrer Baustelle vom ersten Tag an alles läuft.</p><ul class="chips"><li>Baustelleneinrichtung</li><li>Abbruch &amp; Entsorgung</li><li>Abdichtung</li><li>Dämmung</li></ul><a class="btn o" href="#kontakt">Projekt besprechen<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a></article>
+   </div>
+  </div>
+  <div class="count" aria-hidden="true"><span id="cnum">Rohbau</span><span class="bar"><i id="cbar"></i></span></div>
+ </div>
+</section>
+
+<section class="proj" id="projekte" aria-label="Projekte">
+ <div class="sticky">
+  <div class="proj-head" id="projHead"><div class="lbl"><i></i>Referenzen</div><h2>Vom Modell zur Wirklichkeit.</h2></div>
+  <div class="track" id="track">
+   <article class="card"><figure style="margin:0"><div class="ph" id="ph0"><span class="pin glass">Siegburg</span><img src="img/siegburg.webp" alt="Ein Einfamilienhaus, das von der Trhino GmbH in Siegburg errichtet wurde." width="1000" height="666"></div></figure>
+    <div class="cap"><h3>Einfamilienhaus</h3><span class="where">Neubau · Siegburg</span><p>Ein freistehendes Einfamilienhaus, von der Trhino GmbH in Siegburg errichtet: massiv gemauert, sauber übergeben.</p><ul class="chips"><li>Neubau</li><li>Rohbau</li><li>Einfamilienhaus</li></ul></div></article>
+   <article class="card"><figure style="margin:0"><div class="ph"><span class="pin glass">Hennef</span><img src="img/hennef.webp" alt="Ein Einfamilienhaus, bei dem der Rohbau von der Trhino GmbH in Hennef errichtet wurde." width="1000" height="666" loading="lazy"></div></figure>
+    <div class="cap"><h3>Einfamilienhaus</h3><span class="where">Rohbau · Hennef</span><p>Den Rohbau dieses Einfamilienhauses in Hennef hat Trhino errichtet, vom Fundament bis zur Decke.</p><ul class="chips"><li>Rohbau</li><li>Einfamilienhaus</li><li>Rhein-Sieg-Kreis</li></ul></div></article>
+   <article class="card"><figure style="margin:0"><div class="ph"><span class="pin glass">Rheinbach</span><img src="img/rheinbach.webp" alt="Die Errichtung einer Industriehalle in Rheinbach für einen Nudelhersteller, aus der Luft aufgenommen." width="1000" height="666" loading="lazy"></div></figure>
+    <div class="cap"><h3>Industriehalle</h3><span class="where">Gewerbe · Rheinbach</span><p>Eine Industriehalle für einen Nudelhersteller: Porenbeton-Elemente, mit dem Schwerlastkran montiert.</p><ul class="chips"><li>Porenbeton</li><li>Hallenbau</li><li>Gewerbe</li></ul></div></article>
+   <div class="card more"><a href="#kontakt"><small>Ihr Projekt</small><strong>Was bauen wir als Nächstes?</strong><span>Projekt anfragen<svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></span></a></div>
+  </div>
+  <div class="places" aria-hidden="true"><b>Siegburg</b><b>Hennef</b><b>Rheinbach</b><span class="bar"><i id="pbar"></i></span></div>
+ </div>
+</section>
+
+<section class="flow" id="ablauf" aria-label="Ablauf">
+ <div class="sticky">
+  <div class="stage" id="fstage"><div class="shot"><img src="img/team.webp" alt="Lagebesprechung auf der Baustelle" style="object-position:50% 35%"></div><div class="shot"><img src="img/fundament.webp" alt="Streifenfundament mit Anschlussbewehrung" style="object-position:50% 55%"></div><div class="shot"><img src="img/mauer.webp" alt="Versetzen großformatiger Porenbeton-Steine" style="object-position:50% 30%" loading="lazy"></div><div class="shot"><img src="img/rohbau.webp" alt="Rohbau eines Einfamilienhauses, eingerüstet" style="object-position:50% 50%" loading="lazy"></div><div class="cap glass" id="fcapt">Lagebesprechung auf der Baustelle</div><div class="cnt glass"><b id="fnum">1</b> <span>/ 4</span></div></div>
+  <div class="ftext">
+   <div class="lbl"><i></i>Ablauf</div>
+   <h2>Vom ersten Gespräch bis zum Richtfest.</h2>
+   <div class="fprog" id="fprog"><button>Anfrage<i><b></b></i></button><button>Fundament<i><b></b></i></button><button>Bau<i><b></b></i></button><button>Übergabe<i><b></b></i></button></div>
+   <div class="fbody">
+    <div class="fmeta"><span>Anfrage &amp; Angebot</span><span>Fundament</span><span>Bauausführung</span><span>Richtfest &amp; Übergabe</span></div>
+    <div class="ftitle"><h3>Ihre Anfrage, unser Angebot.</h3><h3>Ein Fundament, das hält.</h3><h3>Stein für Stein, mit Meisterhand.</h3><h3>Der Rohbau steht.</h3></div>
+    <div class="fpara"><div><p>Sie schildern uns Ihr Vorhaben, online oder am Telefon. Wir prüfen Pläne und Details und schicken Ihnen innerhalb von 48 Stunden ein faires, transparentes Angebot.</p><ul class="facts2"><li>Angebot in 48 Stunden</li><li>Online oder telefonisch</li></ul></div><div><p>Erdarbeiten, Bewehrung und Beton aus einer Hand. Fundamente und Bodenplatten werden eingemessen, bewehrt und betoniert: die Basis für alles, was folgt.</p><ul class="facts2"><li>Erdarbeiten</li><li>Stahlbeton, bewehrt</li></ul></div><div><p>Unsere Fachkräfte mauern Porenbeton, Bims und klassisches Mauerwerk, großformatig auch per Kran. Jede Schicht wird geprüft, bevor die nächste kommt.</p><ul class="facts2"><li>Porenbeton &amp; Mauerwerk</li><li>Eigenes Team</li></ul></div><div><p>Wände und Decken stehen, der Rohbau ist bereit für die nächsten Gewerke. Wir übergeben ihn gemeinsam mit Ihnen, Punkt für Punkt.</p><ul class="facts2"><li>Abnahme vor Ort</li><li>Übergabe an Folgegewerke</li></ul></div></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="outro" id="kontakt">
+ <div class="in">
+  <h2>Ihr Projekt. Massiv <span>gebaut.</span></h2>
+  <div>
+   <p>Schicken Sie uns Ihre Pläne oder rufen Sie an. Innerhalb von 48 Stunden erhalten Sie Ihr Angebot.</p>
+   <div class="contact"><a href="tel:+4917684584683">0176 84584683</a><a href="mailto:info@trhino.de">info@trhino.de</a><span>Buisdorfer Straße 20, 53757 Sankt Augustin</span></div>
+   <a class="btn o" href="mailto:info@trhino.de">Kostenloses Angebot anfragen<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+  </div>
+ </div>
+ <div class="foot"><svg viewBox="0 0 904 254" aria-label="Trhino GmbH"><path fill="#FE9204" d="M0 0h904v26h-904zM0 26h28v14h-28zM876 26h28v14h-28zM568 40h20v2h-20zM566 42h24v20h-24zM0 40h560v24h-560zM568 62h20v2h-20zM596 40h308v24h-308zM656 98h24v4h-24zM656 102h26v2h-26zM656 104h28v4h-28zM656 108h30v4h-30zM656 112h32v4h-32zM252 98h92v20h-92zM656 116h34v2h-34zM806 98h98v20h-98zM656 118h36v4h-36zM656 122h38v4h-38zM656 126h40v2h-40zM656 128h42v4h-42zM840 132h30v2h-30zM656 132h44v4h-44zM656 136h46v4h-46zM656 140h48v2h-48zM656 142h50v4h-50zM852 134h4v12h-4zM840 146h30v2h-30zM404 98h22v52h-22zM474 98h26v52h-26zM656 146h52v4h-52zM868 148h2v2h-2zM656 150h54v4h-54zM656 154h56v2h-56zM850 154h18v2h-18zM846 156h6v2h-6zM864 156h6v2h-6zM656 156h58v4h-58zM846 158h4v2h-4zM846 160h2v2h-2zM868 158h2v4h-2zM252 118h24v46h-24zM318 118h26v46h-26zM682 160h34v4h-34zM848 162h2v2h-2zM866 162h4v2h-4zM684 164h34v2h-34zM838 164h30v2h-30zM838 166h32v2h-32zM404 150h96v20h-96zM686 166h34v4h-34zM688 170h34v4h-34zM848 172h22v2h-22zM846 174h24v2h-24zM690 174h34v4h-34zM692 178h34v2h-34zM728 98h26v82h-26zM846 176h2v4h-2zM848 180h2v2h-2zM252 164h92v20h-92zM694 180h60v4h-60zM850 182h20v2h-20zM286 184h32v2h-32zM846 184h24v2h-24zM288 186h30v2h-30zM696 184h58v4h-58zM288 188h32v2h-32zM846 186h2v4h-2zM290 190h32v2h-32zM698 188h56v4h-56zM848 190h2v2h-2zM292 192h30v2h-30zM700 192h54v2h-54zM850 192h20v2h-20zM292 194h32v2h-32zM846 194h24v2h-24zM702 194h52v4h-52zM294 196h32v4h-32zM296 200h32v2h-32zM704 198h50v4h-50zM844 200h6v2h-6zM854 200h16v2h-16zM298 202h30v2h-30zM842 202h8v2h-8zM854 202h12v2h-12zM298 204h32v2h-32zM706 202h48v4h-48zM840 204h4v2h-4zM866 204h2v2h-2zM300 206h32v2h-32zM708 206h46v2h-46zM840 206h2v2h-2zM866 206h4v2h-4zM302 208h30v2h-30zM854 204h2v6h-2zM302 210h32v2h-32zM710 208h44v4h-44zM838 208h4v4h-4zM868 208h2v4h-2zM138 64h40v150h-40zM304 212h30v2h-30zM840 212h2v2h-2zM138 214h42v2h-42zM304 214h32v2h-32zM712 212h42v4h-42zM840 214h4v2h-4zM866 212h4v4h-4zM306 216h32v2h-32zM842 216h4v2h-4zM862 216h6v2h-6zM308 218h30v2h-30zM714 216h40v4h-40zM844 218h22v2h-22zM308 220h32v2h-32zM716 220h38v2h-38zM852 220h4v2h-4zM310 222h32v4h-32zM718 222h36v4h-36zM312 226h32v2h-32zM314 228h30v2h-30zM720 226h34v4h-34zM314 230h32v2h-32zM806 118h24v114h-24zM878 118h26v114h-26zM316 232h32v2h-32zM722 230h32v4h-32zM318 234h30v2h-30zM724 234h30v2h-30zM318 236h32v2h-32zM320 238h30v2h-30zM726 236h28v4h-28zM320 240h32v2h-32zM322 242h32v2h-32zM728 240h26v4h-26zM324 244h30v2h-30zM324 246h32v2h-32zM730 244h24v4h-24zM732 248h22v2h-22zM252 184h24v68h-24zM326 248h32v4h-32zM404 170h22v82h-22zM474 170h26v82h-26zM566 98h24v154h-24zM656 160h24v92h-24zM734 250h20v2h-20zM806 232h98v20h-98zM108 216h102v38h-102z"/></svg><span>© 2026 Trhino GmbH · Hochbau aus Meisterhand</span><nav><a href="#">Impressum</a><a href="#">Datenschutz</a><a href="#">Jobs</a></nav></div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+{
+const hero=document.getElementById('hero'), canvas=document.getElementById('stage');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const seg=(t,a,b)=>clamp((t-a)/(b-a));
+const eIO=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const eOut=x=>1-Math.pow(1-x,3);
+const eOutQ=x=>1-Math.pow(1-x,5);
+const eBack=x=>{const c1=1.45,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)};
+const lerp=(a,b,x)=>a+(b-a)*x;
+
+/* renderer */
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping; renderer.toneMappingExposure=1.0;
+renderer.shadowMap.enabled=true; renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x000000,0);
+const scene=new THREE.Scene();
+const pmrem=new THREE.PMREMGenerator(renderer);
+scene.environment=pmrem.fromScene(new RoomEnvironment(),.04).texture;
+scene.environmentIntensity=.38;
+const camera=new THREE.PerspectiveCamera(30,1,.5,400);
+
+/* light: low warm sun from the left, soft sky fill */
+scene.add(new THREE.HemisphereLight(0xffffff,0xcfc8b8,.55));
+const sun=new THREE.DirectionalLight(0xffeccc,3.4);
+sun.position.set(-6,22,24); sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048); sun.shadow.bias=-.0004; sun.shadow.normalBias=.03; sun.shadow.radius=4;
+Object.assign(sun.shadow.camera,{left:-26,right:26,top:26,bottom:-26,near:1,far:80});
+scene.add(sun); scene.add(sun.target);
+const rim=new THREE.DirectionalLight(0xffffff,.55); rim.position.set(14,10,-18); scene.add(rim);
+
+/* materials */
+const M={
+ block:new THREE.MeshStandardMaterial({color:0xF2EFE8,roughness:.95,metalness:0}),
+ board:new THREE.MeshStandardMaterial({color:0xFBFAF7,roughness:.85}),
+ edge:new THREE.MeshStandardMaterial({color:0xE9E7E0,roughness:.9}),
+ concrete:new THREE.MeshStandardMaterial({color:0xD6D4CD,roughness:.88}),
+ wood:new THREE.MeshStandardMaterial({color:0xE7D6B8,roughness:.75}),
+ orange:new THREE.MeshStandardMaterial({color:0xF28C0A,roughness:.58,metalness:.08}),
+ ink:new THREE.MeshStandardMaterial({color:0x26262A,roughness:.6,metalness:.2}),
+ steel:new THREE.MeshStandardMaterial({color:0x2A2A2A,roughness:.45,metalness:.6}),
+ /* architectural-model foliage: soft, matte, desaturated brand greens */
+ green:new THREE.MeshStandardMaterial({color:0x8EAA7A,roughness:1}),
+ green2:new THREE.MeshStandardMaterial({color:0x6E8F62,roughness:1}),
+ figure:new THREE.MeshStandardMaterial({color:0x3A3A3C,roughness:.8}),
+ glass:new THREE.MeshPhysicalMaterial({color:0xffffff,roughness:.05,transmission:0,transparent:true,opacity:.22,metalness:.1}),
+};
+const shade=o=>{o.castShadow=true;o.receiveShadow=true;return o};
+
+/* model base board (architect's maquette plinth) and a shadow catcher below */
+/* a thin, crisp base plate (not a rounded tray) so it reads as an architect's model, not a toy */
+const BW=34,BD=25,BT=.22;
+const board=shade(new THREE.Mesh(new RoundedBoxGeometry(BW,BT,BD,2,.025),M.board)); board.position.y=-BT/2; scene.add(board);
+const catcher=new THREE.Mesh(new THREE.PlaneGeometry(260,260),new THREE.ShadowMaterial({opacity:.12}));
+catcher.rotation.x=-Math.PI/2; catcher.position.y=-BT-.005; catcher.receiveShadow=true; scene.add(catcher);
+
+/* house dimensions (m) */
+const HW=11,HD=9,BL=.625,BH=.25,TH=.30,C1=11,C2=10;
+const SLAB=.22, F1=C1*BH, F2=F1+SLAB, TOP=F2+C2*BH, RING=.24, EAVE=TOP+RING, RIDGE=3.1;
+
+/* the plan: drawn on the board before anything rises */
+const planPts=[];
+const L=(a,b,c,d)=>planPts.push(a,.012,b,c,.012,d);
+const rect=(x0,z0,x1,z1)=>{L(x0,z0,x1,z0);L(x1,z0,x1,z1);L(x1,z1,x0,z1);L(x0,z1,x0,z0)};
+rect(-HW/2,-HD/2,HW/2,HD/2); rect(-HW/2+TH,-HD/2+TH,HW/2-TH,HD/2-TH);
+L(-1.4,-HD/2+TH,-1.4,1.2); L(-1.4,1.2,-HW/2+TH,1.2); L(1.8,-HD/2+TH,1.8,HD/2-TH); L(1.8,-.6,HW/2-TH,-.6);
+const planGeo=new THREE.BufferGeometry(); planGeo.setAttribute('position',new THREE.Float32BufferAttribute(planPts,3));
+const plan=new THREE.LineSegments(planGeo,new THREE.LineBasicMaterial({color:0xFE9204,transparent:true,opacity:1})); scene.add(plan);
+const dimPts=[]; const D=(a,b,c,d)=>dimPts.push(a,.012,b,c,.012,d);
+const dz=HD/2+1.6, dx=-HW/2-1.6;
+D(-HW/2,dz,HW/2,dz); D(-HW/2,dz-.35,-HW/2,dz+.35); D(HW/2,dz-.35,HW/2,dz+.35); D(-1.4,dz-.2,-1.4,dz+.2); D(1.8,dz-.2,1.8,dz+.2);
+D(dx,-HD/2,dx,HD/2); D(dx-.35,-HD/2,dx+.35,-HD/2); D(dx-.35,HD/2,dx+.35,HD/2);
+for(let i=-6;i<=6;i++){D(-HW/2-.05,i*.62,-HW/2-.4,i*.62+.0)}
+const dimGeo=new THREE.BufferGeometry(); dimGeo.setAttribute('position',new THREE.Float32BufferAttribute(dimPts,3));
+const dims=new THREE.LineSegments(dimGeo,new THREE.LineBasicMaterial({color:0x1A1A1A,transparent:true,opacity:.7})); scene.add(dims);
+const gridPts=[]; for(let x=-16;x<=16;x+=1){gridPts.push(x,.006,-12,x,.006,12)} for(let z=-12;z<=12;z+=1){gridPts.push(-16,.006,z,16,.006,z)}
+const gridGeo=new THREE.BufferGeometry(); gridGeo.setAttribute('position',new THREE.Float32BufferAttribute(gridPts,3));
+const grid=new THREE.LineSegments(gridGeo,new THREE.LineBasicMaterial({color:0x1A1A1A,transparent:true,opacity:.05})); scene.add(grid);
+
+/* ---------- Porenbeton walls, course by course ---------- */
+const OPEN={
+ 1:{f:[[4.9,6.1,0,8],[1.2,3.1,3,8],[7.5,9.9,0,8]],b:[[2.0,3.3,4,8],[7.0,8.3,4,8]],l:[[3.2,5.6,3,8]],r:[[2.6,4.0,3,8],[5.6,6.6,0,8]]},
+ 2:{f:[[1.2,3.1,3,7],[4.6,6.4,3,7],[7.5,9.9,3,7]],b:[[2.0,3.3,4,7],[7.0,8.3,4,7]],l:[[3.2,5.6,3,7]],r:[[2.6,4.0,3,7]]}
+};
+const blocks=[], lintels=[];
+function courseRow(side,floor,c,y0,courses){
+ const xs=side==='f'||side==='b';
+ const full=xs?(c%2===0):(c%2===1);
+ const len=xs?HW:HD, s0=full?0:TH, s1=full?len:len-TH;
+ const off=(c%2)?-BL/2:0;
+ const ops=OPEN[floor][side];
+ for(let u=s0+off;u<s1;u+=BL){
+  const a=Math.max(u,s0), b=Math.min(u+BL,s1); if(b-a<.06) continue;
+  const mid=(a+b)/2;
+  if(ops.some(o=>mid>o[0]&&mid<o[1]&&c>=o[2]&&c<=o[3]+1)) continue;
+  const y=y0+c*BH+BH/2;
+  const p=xs?new THREE.Vector3(mid-HW/2,y,(side==='f'?1:-1)*(HD/2-TH/2)):new THREE.Vector3((side==='r'?1:-1)*(HW/2-TH/2),y,mid-HD/2);
+  const sc=xs?new THREE.Vector3(b-a-.024,BH-.022,TH):new THREE.Vector3(TH,BH-.022,b-a-.024);
+  const t0=(floor===1?2.25:4.62)+c*(floor===1?.175:.15)+((c%2)?(1-mid/len):(mid/len))*.24+(side==='b'?.03:side==='l'?.05:side==='r'?.07:0);
+  blocks.push({p,sc,t0});
+ }
+ for(const o of ops){ if(c===o[3]+1){
+  const w=o[1]-o[0]+.5, m=(o[0]+o[1])/2, y=y0+c*BH+BH/2;
+  const p=xs?new THREE.Vector3(m-HW/2,y,(side==='f'?1:-1)*(HD/2-TH/2)):new THREE.Vector3((side==='r'?1:-1)*(HW/2-TH/2),y,m-HD/2);
+  lintels.push({p,sc:xs?new THREE.Vector3(w,BH-.01,TH+.01):new THREE.Vector3(TH+.01,BH-.01,w),t0:(floor===1?2.25:4.62)+c*(floor===1?.175:.15)+.12});
+ }}
+}
+for(let c=0;c<C1;c++) for(const s of ['f','b','l','r']) courseRow(s,1,c,0,C1);
+for(let c=0;c<C2;c++) for(const s of ['f','b','l','r']) courseRow(s,2,c,F2,C2);
+const blockGeo=new RoundedBoxGeometry(1,1,1,2,.035);
+const blockMesh=shade(new THREE.InstancedMesh(blockGeo,M.block,blocks.length)); scene.add(blockMesh);
+const lintelMesh=shade(new THREE.InstancedMesh(new THREE.BoxGeometry(1,1,1),M.concrete,lintels.length)); scene.add(lintelMesh);
+
+/* slabs */
+const slab1=shade(new THREE.Mesh(new RoundedBoxGeometry(HW+.12,SLAB,HD+.12,2,.03),M.concrete)); scene.add(slab1);
+const slab2=shade(new THREE.Mesh(new RoundedBoxGeometry(HW+.12,SLAB,HD+.12,2,.03),M.concrete)); scene.add(slab2);
+const Y1=F1+SLAB/2, Y2=TOP+SLAB/2, EV=TOP+SLAB;
+
+/* hip roof truss */
+const rafters=[]; const r=(HW-HD)/2, R=RIDGE;
+const pushR=(a,b,w=.09,h=.18)=>{const d=b.clone().sub(a).normalize(); rafters.push({a:a.clone().addScaledVector(d,-.5),b,w,h})};
+for(let x=-HW/2+.35;x<=HW/2-.35;x+=.72){
+ for(const sz of [1,-1]){
+  const a=new THREE.Vector3(x,EV,sz*HD/2);
+  let b; if(Math.abs(x)<=r) b=new THREE.Vector3(x,EV+R,0); else {const t=(HW/2-Math.abs(x))/(HW/2-r); b=new THREE.Vector3(x,EV+R*t,sz*HD/2*(1-t));}
+  if(b.y-EV>.12) pushR(a,b);
+ }
+}
+for(let z=-HD/2+.5;z<=HD/2-.5;z+=.72){
+ for(const sx of [1,-1]){
+  const t=1-Math.abs(z)/(HD/2); if(t<.08) continue;
+  pushR(new THREE.Vector3(sx*HW/2,EV,z),new THREE.Vector3(sx*(HW/2-t*(HW/2-r)),EV+R*t,z));
+ }
+}
+for(const sx of [1,-1]) for(const sz of [1,-1]) pushR(new THREE.Vector3(sx*HW/2,EV,sz*HD/2),new THREE.Vector3(sx*r,EV+R,0),.11,.22);
+rafters.forEach((q,i)=>q.t0=6.3+(i%2?.02:0)+Math.abs(q.a.x)/HW*.5+(q.a.z+HD)/HD*.12);
+const ridgeA=new THREE.Vector3(-r-.25,EV+R,0), ridgeB=new THREE.Vector3(r+.25,EV+R,0);
+rafters.push({a:ridgeA,b:ridgeB,w:.14,h:.24,t0:6.2});
+const plates=[[-HW/2,EV+.06,HD/2,HW/2,EV+.06,HD/2],[-HW/2,EV+.06,-HD/2,HW/2,EV+.06,-HD/2],[-HW/2,EV+.06,-HD/2,-HW/2,EV+.06,HD/2],[HW/2,EV+.06,-HD/2,HW/2,EV+.06,HD/2]];
+plates.forEach(p=>rafters.push({a:new THREE.Vector3(p[0],p[1],p[2]),b:new THREE.Vector3(p[3],p[4],p[5]),w:.16,h:.12,t0:6.1}));
+const boxZ=new THREE.BoxGeometry(1,1,1); boxZ.translate(0,0,.5);
+const rafterMesh=shade(new THREE.InstancedMesh(boxZ,M.wood,rafters.length)); scene.add(rafterMesh);
+
+/* tower crane (Trhino orange) */
+const crane=new THREE.Group(); crane.position.set(-12.6,0,1.2); scene.add(crane);
+const CH=17.5, CW=1.3;
+const orangeParts=[], inkParts=[];
+const bar=(arr,a,b,w=.1)=>arr.push({a,b,w});
+const V=(x,y,z)=>new THREE.Vector3(x,y,z);
+const hc=CW/2;
+for(const [x,z] of [[-hc,-hc],[hc,-hc],[hc,hc],[-hc,hc]]) bar(orangeParts,V(x,0,z),V(x,CH,z),.13);
+for(let y=0;y<CH-.1;y+=CW){
+ const y2=Math.min(y+CW,CH);
+ const faces=[[[-hc,-hc],[hc,-hc]],[[hc,-hc],[hc,hc]],[[hc,hc],[-hc,hc]],[[-hc,hc],[-hc,-hc]]];
+ faces.forEach((f,i)=>{bar(orangeParts,V(f[0][0],y2,f[0][1]),V(f[1][0],y2,f[1][1]),.07); const s=(Math.floor(y/CW)+i)%2; bar(orangeParts,V(f[s][0],y,f[s][1]),V(f[1-s][0],y2,f[1-s][1]),.055)});
+}
+const mast=shade(new THREE.InstancedMesh(boxZ,M.orange,orangeParts.length)); crane.add(mast);
+const slew=new THREE.Group(); slew.position.y=CH; crane.add(slew);
+const jibParts=[]; const JL=19, CJ=6.5, jh=1.15;
+for(const s of [-1,1]) bar(jibParts,V(-CJ,0,s*.55),V(JL,0,s*.55),.11);
+bar(jibParts,V(0,jh,0),V(JL-1,jh*.25,0),.1);
+for(let x=0;x<JL-1.4;x+=1.5){ const yt=jh*(1-x/JL*.78), yt2=jh*(1-(x+1.5)/JL*.78);
+ for(const s of [-1,1]) bar(jibParts,V(x,0,s*.55),V(x+.75,(yt+yt2)/2,0),.05), bar(jibParts,V(x+.75,(yt+yt2)/2,0),V(x+1.5,0,s*.55),.05);
+ bar(jibParts,V(x,0,-.55),V(x,0,.55),.05);
+}
+const jib=shade(new THREE.InstancedMesh(boxZ,M.orange,jibParts.length)); slew.add(jib);
+const apex=[]; bar(apex,V(-.6,0,-.6),V(0,4.2,0),.12); bar(apex,V(.6,0,-.6),V(0,4.2,0),.12); bar(apex,V(-.6,0,.6),V(0,4.2,0),.12); bar(apex,V(.6,0,.6),V(0,4.2,0),.12);
+const apexMesh=shade(new THREE.InstancedMesh(boxZ,M.orange,apex.length)); slew.add(apexMesh);
+bar(inkParts,V(0,4.2,0),V(JL*.62,jh*.5,0),.035); bar(inkParts,V(0,4.2,0),V(-CJ+.4,.2,0),.035);
+const ties=shade(new THREE.InstancedMesh(boxZ,M.steel,inkParts.length)); slew.add(ties);
+const cab=shade(new THREE.Mesh(new RoundedBoxGeometry(1.5,1.4,1.3,2,.12),M.orange)); cab.position.set(.9,-.5,1.25); slew.add(cab);
+const cabGlass=new THREE.Mesh(new THREE.BoxGeometry(.05,.8,1.0),M.steel); cabGlass.position.set(1.66,-.4,1.25); slew.add(cabGlass);
+const cw1=shade(new THREE.Mesh(new RoundedBoxGeometry(2.2,1.6,1.4,2,.08),M.concrete)); cw1.position.set(-CJ+1.2,-.65,0); slew.add(cw1);
+const deck=shade(new THREE.Mesh(new THREE.BoxGeometry(CJ,.12,1.2),M.steel)); deck.position.set(-CJ/2,-.05,0); slew.add(deck);
+const trolley=new THREE.Group(); trolley.position.set(11.2,0,0); slew.add(trolley);
+const tbox=shade(new THREE.Mesh(new THREE.BoxGeometry(.9,.3,1.0),M.steel)); tbox.position.y=-.15; trolley.add(tbox);
+const cable=new THREE.Mesh(new THREE.BoxGeometry(.03,1,.03),M.steel); trolley.add(cable);
+const hook=new THREE.Group(); trolley.add(hook);
+const hblock=shade(new THREE.Mesh(new RoundedBoxGeometry(.5,.6,.35,2,.06),M.orange)); hook.add(hblock);
+const pallet=new THREE.Group(); pallet.position.y=-1.15; hook.add(pallet);
+pallet.add(shade(new THREE.Mesh(new THREE.BoxGeometry(1.3,.14,1.0),M.wood)));
+for(let i=0;i<3;i++)for(let j=0;j<2;j++)for(let k=0;k<2;k++){const b=shade(new THREE.Mesh(blockGeo,M.block));b.scale.set(BL-.02,BH-.02,TH*1.5);b.position.set((i-1)*.42,.2+k*.26,(j-.5)*.47);b.scale.x=.4;pallet.add(b)}
+for(const s of [-1,1]){const st=new THREE.Mesh(new THREE.BoxGeometry(.02,1.0,.02),M.steel);st.position.set(s*.55,-.55,0);st.rotation.z=s*.45;hook.add(st)}
+
+/* scaffolding along the left side (black steel, grey boards) */
+const scaf=[]; const SX=-HW/2-.75, sw=.8;
+const lifts=[1.0,2.95,4.9,6.85]; const zs=[]; for(let z=-HD/2-.6;z<=HD/2+.61;z+=2.18) zs.push(z);
+for(const z of zs) for(const dx of [0,-sw]) scaf.push({a:V(SX+dx,0,z),b:V(SX+dx,EV+1.1,z),w:.05,lift:0});
+lifts.forEach((y,li)=>{ for(const dx of [0,-sw]) scaf.push({a:V(SX+dx,y,zs[0]),b:V(SX+dx,y,zs[zs.length-1]),w:.045,lift:li});
+ for(const z of zs) scaf.push({a:V(SX,y,z),b:V(SX-sw,y,z),w:.045,lift:li});
+ scaf.push({a:V(SX-sw,y+1.0,zs[0]),b:V(SX-sw,y+1.0,zs[zs.length-1]),w:.04,lift:li});
+});
+const scafMesh=shade(new THREE.InstancedMesh(boxZ,M.ink,scaf.length)); scene.add(scafMesh);
+const boards=lifts.map((y,li)=>{const m=shade(new THREE.Mesh(new THREE.BoxGeometry(sw-.06,.05,zs[zs.length-1]-zs[0]),M.concrete)); m.position.set(SX-sw/2,y+.03,(zs[0]+zs[zs.length-1])/2); scene.add(m); return m});
+
+/* site props: block pallets, maquette trees (green), scale figures (black) */
+const props=[];
+for(const [px,pz] of [[7.4,6.6],[8.9,5.5],[-7.6,7.4]]){
+ const g=new THREE.Group(); g.position.set(px,0,pz); scene.add(g);
+ g.add(shade(new THREE.Mesh(new THREE.BoxGeometry(1.25,.14,1.0),M.wood)).translateY(.07));
+ for(let i=0;i<2;i++)for(let j=0;j<3;j++)for(let k=0;k<4;k++){const b=shade(new THREE.Mesh(blockGeo,M.block));b.scale.set(.6,BH-.02,.3);b.position.set((i-.5)*.62,.27+k*.25,(j-1)*.31);g.add(b)}
+ props.push(g);
+}
+const trees=[]; const icoA=new THREE.SphereGeometry(1,40,28), trunkG=new THREE.CylinderGeometry(.035,.05,1,10);
+[[11.8,5.2,.95],[13.6,-2.6,1.15],[-13.4,5.6,1.05],[-14.2,-2.2,.85],[9.4,-9.4,.95],[-4.6,9.6,.75],[14.4,8.6,.7],[-11.6,-9.4,1.1],[3.8,-10.2,.8],[15.2,2.8,.65]].forEach(([x,z,s],i)=>{
+ const g=new THREE.Group(); g.position.set(x,0,z); scene.add(g);
+ const tr=shade(new THREE.Mesh(trunkG,M.edge)); tr.scale.y=s*1.6; tr.position.y=s*.8; g.add(tr);
+ const c=shade(new THREE.Mesh(icoA,i%2?M.green2:M.green)); c.scale.set(s*.92,s*1.08,s*.92); c.position.y=s*1.6+s*.9; g.add(c);
+ trees.push({g,i});
+});
+/* slim scale figures (1:100 model people) */
+const figs=[]; const capG=new THREE.CapsuleGeometry(.11,1.2,4,12), headG=new THREE.SphereGeometry(.1,16,12);
+[[4.4,7.6,0],[5.0,8.0,1],[-3.2,7.9,0]].forEach(([x,z])=>{const g=new THREE.Group();g.position.set(x,0,z);const b=shade(new THREE.Mesh(capG,M.figure));b.position.y=.72;g.add(b);const h=shade(new THREE.Mesh(headG,M.figure));h.position.y=1.55;g.add(h);scene.add(g);figs.push(g)});
+
+/* ---------- section 2 objects ---------- */
+const house=new THREE.Group(); scene.add(house);
+const foundation=shade(new THREE.Mesh(new RoundedBoxGeometry(HW+.6,.32,HD+.6,2,.04),M.concrete)); foundation.position.y=-.16; house.add(foundation);
+house.add(blockMesh,lintelMesh,slab1,slab2,rafterMesh,scafMesh,...boards);
+/* steel beam (HEB) for the Umbau story, over the terrace opening */
+const beam=new THREE.Group(); beam.position.set((7.5+9.9)/2-HW/2,9*BH+BH/2,HD/2-TH/2); house.add(beam);
+[[2.9,.03,.28,.115],[2.9,.03,.28,-.115],[2.9,.2,.03,0]].forEach(([x,y,z,o])=>{const m=shade(new THREE.Mesh(new THREE.BoxGeometry(x,y,z),M.steel));m.position.y=o;beam.add(m)});
+
+/* ---------- the finished house (like the Siegburg project): white render, anthracite tiled hip roof,
+   dark window frames, terrace, lawn and hedges. It sits over the Rohbau and peels away on scroll. ---------- */
+function tileTex(){const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d');
+ g.fillStyle='#4B4E54';g.fillRect(0,0,128,128);
+ const gr=g.createLinearGradient(0,0,0,128);gr.addColorStop(0,'rgba(255,255,255,.12)');gr.addColorStop(.8,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.5)');g.fillStyle=gr;g.fillRect(0,0,128,128);
+ g.fillStyle='rgba(0,0,0,.32)';for(let x=0;x<128;x+=32)g.fillRect(x,0,2,128);
+ const t=new THREE.CanvasTexture(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;return t}
+const MF={
+ plaster:new THREE.MeshStandardMaterial({color:0xF6F5F1,roughness:.93}),
+ trim:new THREE.MeshStandardMaterial({color:0xF8F7F3,roughness:.8,transparent:true}),
+ roof:new THREE.MeshStandardMaterial({map:tileTex(),roughness:.72,metalness:.05,side:THREE.DoubleSide,transparent:true}),
+ cap:new THREE.MeshStandardMaterial({color:0x34363A,roughness:.6,transparent:true}),
+ frame:new THREE.MeshStandardMaterial({color:0x2E3135,roughness:.5,metalness:.3,transparent:true}),
+ glass:new THREE.MeshPhysicalMaterial({color:0x1C2530,roughness:.05,metalness:.15,clearcoat:1,transparent:true,opacity:.92,envMapIntensity:1.8}),
+ sill:new THREE.MeshStandardMaterial({color:0xDCDAD3,roughness:.7,transparent:true}),
+ solar:new THREE.MeshStandardMaterial({color:0x1A2436,roughness:.22,metalness:.55,transparent:true}),
+ lawn:new THREE.MeshStandardMaterial({color:0x8CAB72,roughness:1,transparent:true}),
+ hedge:new THREE.MeshStandardMaterial({color:0x5F8150,roughness:1,transparent:true}),
+ paving:new THREE.MeshStandardMaterial({color:0xBEBBB3,roughness:.95,transparent:true}),
+};
+const boxC=new THREE.BoxGeometry(1,1,1);
+const finish=new THREE.Group(); house.add(finish);
+/* render skin: one extruded wall per side, with the real window/door openings cut out */
+const PD=.09, skins=[];
+for(const side of ['f','b','l','r']){
+ const xs=side==='f'||side==='b', len=xs?HW:HD, mir=side==='b'||side==='r', ext=xs?PD:0;
+ const s=new THREE.Shape(); s.moveTo(-ext,-.04); s.lineTo(len+ext,-.04); s.lineTo(len+ext,EV); s.lineTo(-ext,EV); s.closePath();
+ for(const fl of [1,2]) for(const o of OPEN[fl][side]){
+  const y0=(fl===1?0:F2)+o[2]*BH, y1=(fl===1?0:F2)+(o[3]+1)*BH; const a=mir?len-o[1]:o[0], b=mir?len-o[0]:o[1];
+  const h=new THREE.Path(); h.moveTo(a,y0); h.lineTo(b,y0); h.lineTo(b,y1); h.lineTo(a,y1); h.closePath(); s.holes.push(h);
+ }
+ const m=shade(new THREE.Mesh(new THREE.ExtrudeGeometry(s,{depth:PD,bevelEnabled:false}),MF.plaster));
+ if(side==='f') m.position.set(-HW/2,0,HD/2); else if(side==='b'){m.position.set(HW/2,0,-HD/2);m.rotation.y=Math.PI}
+ else if(side==='l'){m.position.set(-HW/2,0,-HD/2);m.rotation.y=-Math.PI/2} else {m.position.set(HW/2,0,HD/2);m.rotation.y=Math.PI/2}
+ finish.add(m); skins.push(m);
+}
+/* windows and doors: slim anthracite frames, dark glazing, stone sills; the front entrance gets a solid door */
+const wins=new THREE.Group(); finish.add(wins);
+for(const fl of [1,2]) for(const side of ['f','b','l','r']) for(const o of OPEN[fl][side]){
+ const xs=side==='f'||side==='b', y0=(fl===1?0:F2)+o[2]*BH, y1=(fl===1?0:F2)+(o[3]+1)*BH, w=o[1]-o[0], h=y1-y0, m=(o[0]+o[1])/2;
+ const isDoor=fl===1&&side==='f'&&o[0]===4.9, g=new THREE.Group(), out=(xs?HD:HW)/2+.01;
+ if(xs) g.position.set(m-HW/2,y0,(side==='f'?1:-1)*out); else g.position.set((side==='r'?1:-1)*out,y0,m-HD/2);
+ g.rotation.y=side==='f'?0:side==='b'?Math.PI:side==='r'?Math.PI/2:-Math.PI/2;
+ const Fw=.07, part=(mat,sx,sy,sz,x,y,z,cast=true)=>{const b=new THREE.Mesh(boxC,mat);b.scale.set(sx,sy,sz);b.position.set(x,y,z);if(cast)shade(b);g.add(b);return b};
+ part(MF.frame,w,Fw,.08,0,Fw/2,0); part(MF.frame,w,Fw,.08,0,h-Fw/2,0); part(MF.frame,Fw,h,.08,-w/2+Fw/2,h/2,0); part(MF.frame,Fw,h,.08,w/2-Fw/2,h/2,0);
+ if(isDoor){ part(MF.frame,w-Fw*2,h-Fw*2,.05,0,h/2,-.01); part(MF.sill,.035,.6,.05,w/2-.22,h*.46,.05); part(MF.glass,.16,h*.7,.02,-w/2+.24,h/2,.02,false); }
+ else { part(MF.glass,w-Fw,h-Fw,.02,0,h/2,-.01,false); if(w>1.5) part(MF.frame,Fw*.8,h,.08,0,h/2,0); if(h>1.5&&o[2]>0) part(MF.frame,w,Fw*.7,.08,0,h*.68,0);
+  if(o[2]>0) part(MF.sill,w+.14,.05,.22,0,-.025,.08); }
+ wins.add(g);
+}
+/* tiled hip roof with overhang, white fascia and soffit, ridge and hip caps, PV array on the street side */
+const roofG=new THREE.Group(); finish.add(roofG);
+const OV=.55, kS=RIDGE/(HD/2), LIFT=.2, ye=EV+LIFT-kS*OV, yr=EV+RIDGE+LIFT, slopeF=Math.sqrt(1+kS*kS);
+const P1=V(-HW/2-OV,ye,HD/2+OV),P2=V(HW/2+OV,ye,HD/2+OV),P3=V(HW/2+OV,ye,-HD/2-OV),P4=V(-HW/2-OV,ye,-HD/2-OV),RA=V(-r,yr,0),RB=V(r,yr,0);
+const rp=[],ruv=[]; const face=(pts,fu,fd)=>{for(const p of pts){rp.push(p.x,p.y,p.z);ruv.push(fu(p)/1.2,fd(p)*slopeF/.38)}};
+face([P1,P2,RB,P1,RB,RA],p=>p.x,p=>HD/2+OV-p.z); face([P3,P4,RA,P3,RA,RB],p=>-p.x,p=>HD/2+OV+p.z);
+face([P2,P3,RB],p=>-p.z,p=>HW/2+OV-p.x); face([P4,P1,RA],p=>p.z,p=>HW/2+OV+p.x);
+const roofGeo=new THREE.BufferGeometry(); roofGeo.setAttribute('position',new THREE.Float32BufferAttribute(rp,3)); roofGeo.setAttribute('uv',new THREE.Float32BufferAttribute(ruv,2)); roofGeo.computeVertexNormals();
+roofG.add(shade(new THREE.Mesh(roofGeo,MF.roof)));
+const rb=(sx,sy,sz,x,y,z,mat=MF.trim)=>{const b=shade(new THREE.Mesh(boxC,mat));b.scale.set(sx,sy,sz);b.position.set(x,y,z);roofG.add(b);return b};
+rb(HW+2*OV+.06,.22,.06,0,ye-.09,HD/2+OV); rb(HW+2*OV+.06,.22,.06,0,ye-.09,-HD/2-OV); rb(.06,.22,HD+2*OV,HW/2+OV,ye-.09,0); rb(.06,.22,HD+2*OV,-HW/2-OV,ye-.09,0);
+rb(HW+2*OV,.04,HD+2*OV,0,ye-.19,0);
+const roofCaps=[[RA,RB],[P1,RA],[P4,RA],[P2,RB],[P3,RB]], capMesh=shade(new THREE.InstancedMesh(boxZ,MF.cap,roofCaps.length)); roofG.add(capMesh);
+const solar=new THREE.Group(); solar.position.set(0,ye+.02,HD/2+OV); solar.rotation.x=Math.atan(kS); roofG.add(solar);
+for(const s of [1.15,2.95]) for(const x of [-1.6,-.53,.53,1.6]){const p=shade(new THREE.Mesh(boxC,MF.solar));p.scale.set(1.0,.05,1.72);p.position.set(x,.07,-(s+.86));solar.add(p)}
+/* garden: lawn, paved terrace in front of the glass doors, path to the entrance, clipped hedges */
+const garden=new THREE.Group(); finish.add(garden);
+const gb=(mat,sx,sy,sz,x,y,z,geo=boxC)=>{const b=new THREE.Mesh(geo,mat);b.receiveShadow=true;b.scale.set(sx,sy,sz);b.position.set(x,y,z);garden.add(b);return b};
+gb(MF.lawn,21.6,.05,16.5,0,.025,.2);
+gb(MF.paving,3.4,.07,3.2,3.25,.035,HD/2+1.7); gb(MF.paving,6.5,.07,1.4,-1.4,.035,-HD/2-.8);
+gb(MF.paving,1.3,.07,3.75,0,.035,HD/2+1.95+1.7);
+const hedgeG=new RoundedBoxGeometry(1,1,1,2,.18), hedges=[];
+for(const [sx,sz,x,z] of [[.55,16,-10.4,.2],[20.6,.55,0,-7.7],[.55,9.5,10.4,-3.1],[7.6,.55,-5.8,8.1],[7.6,.55,5.8,8.1]]){const hgt=.85;const b=gb(MF.hedge,sx,hgt,sz,x,hgt/2,z,hedgeG);b.castShadow=true;b.userData.h=hgt;hedges.push(b)}
+for(const m of [capMesh]) m.frustumCulled=false;
+/* Porenbeton hall */
+const hall=new THREE.Group(); hall.position.set(6.6,0,.2); scene.add(hall);
+const HLW=12, HLD=8, HLH=6;
+const hcols=[]; for(const x of [-6,-3,0,3,6]) for(const z of [-4,4]) hcols.push({a:V(x,0,z),b:V(x,HLH,z),w:.28});
+for(const x of [-6,6]) hcols.push({a:V(x,0,0),b:V(x,HLH,0),w:.28});
+for(const x of [-6,-3,0,3,6]) hcols.push({a:V(x,HLH,-4.1),b:V(x,HLH,4.1),w:.24,top:1});
+const hallCols=shade(new THREE.InstancedMesh(boxZ,M.steel,hcols.length)); hall.add(hallCols);
+const hpan=[]; const PC=9;
+for(let c=0;c<PC;c++){ const y=c*.625+.31;
+ for(const z of [-4,4]) for(let x=-6;x<6;x+=3){ if(z===4&&x===0&&c<7) continue; hpan.push({p:V(x+1.5,y,z),s:V(2.92,.6,.25),c}) }
+ for(const x of [-6,6]) for(const z of [-4,0]) hpan.push({p:V(x,y,z+2),s:V(.25,.6,3.92),c});
+}
+const hallPan=shade(new THREE.InstancedMesh(blockGeo,M.block,hpan.length)); hall.add(hallPan);
+const door=shade(new THREE.Mesh(new RoundedBoxGeometry(2.8,4.3,.12,2,.03),M.orange)); door.position.set(1.5,2.15,4.02); hall.add(door);
+const hroof=shade(new THREE.Mesh(new RoundedBoxGeometry(HLW+.5,.28,HLD+.5,2,.04),M.concrete)); hroof.position.y=HLH+.26; hall.add(hroof);
+/* site fence (Bauzaun) */
+const fence=[]; const FX=9.2, FZ=7.6;
+const fpath=[[-FX,-FZ,FX,-FZ],[FX,-FZ,FX,FZ],[FX,FZ,1.6,FZ],[-1.6,FZ,-FX,FZ],[-FX,FZ,-FX,-FZ]];
+fpath.forEach(([x0,z0,x1,z1],si)=>{const L=Math.hypot(x1-x0,z1-z0),n=Math.max(1,Math.round(L/2.4));
+ for(let i=0;i<=n;i++){const x=x0+(x1-x0)*i/n,z=z0+(z1-z0)*i/n; fence.push({a:V(x,0,z),b:V(x,2,z),w:.05,o:(si*10+i)/60})}
+ for(const y of [.12,1.95]) fence.push({a:V(x0,y,z0),b:V(x1,y,z1),w:.04,o:si/6});
+});
+const fenceMesh=shade(new THREE.InstancedMesh(boxZ,M.ink,fence.length)); scene.add(fenceMesh);
+/* orange technical frames for highlighting */
+const edgeG=new THREE.EdgesGeometry(new THREE.BoxGeometry(1,1,1));
+const hiMat=()=>new THREE.LineBasicMaterial({color:0xFE9204,transparent:true,opacity:0});
+const hiBox=(parent,sx,sy,sz)=>{const l=new THREE.LineSegments(edgeG,hiMat());l.scale.set(sx,sy,sz);parent.add(l);return l};
+const HI={fd:hiBox(house,HW+.9,.5,HD+.9),w1:hiBox(house,HW+.3,F1+.1,HD+.3),s1:hiBox(house,HW+.45,SLAB+.14,HD+.45),w2:hiBox(house,HW+.3,C2*BH+.1,HD+.3),s2:hiBox(house,HW+.45,SLAB+.14,HD+.45),roof:hiBox(house,HW+1.4,RIDGE+.4,HD+1.4),beam:hiBox(beam,3.4,.6,.7),hall:hiBox(hall,HLW+.9,HLH+1.0,HLD+.9)};
+HI.hall.position.y=HLH/2+.3;
+/* site plan for project management: plot, hall outline, crane radius */
+const sp=[]; const SPL=(a,b,c,d)=>sp.push(a,.02,b,c,.02,d);
+for(let x=-15.6;x<15.6;x+=.9) SPL(x,-11.2,Math.min(x+.5,15.6),-11.2), SPL(x,11.2,Math.min(x+.5,15.6),11.2);
+for(let z=-11.2;z<11.2;z+=.9) SPL(-15.6,z,-15.6,Math.min(z+.5,11.2)), SPL(15.6,z,15.6,Math.min(z+.5,11.2));
+const cx=-12.6,cz=1.2,cr=19; for(let i=0;i<120;i++){const a0=i/120*Math.PI*2,a1=(i+.55)/120*Math.PI*2; const p0=[cx+cr*Math.cos(a0),cz+cr*Math.sin(a0)],p1=[cx+cr*Math.cos(a1),cz+cr*Math.sin(a1)]; if([p0,p1].every(p=>Math.abs(p[0])<16.6&&Math.abs(p[1])<12.2)) SPL(p0[0],p0[1],p1[0],p1[1])}
+SPL(6.6-6,.2-4,6.6+6,.2-4); SPL(6.6+6,.2-4,6.6+6,.2+4); SPL(6.6+6,.2+4,6.6-6,.2+4); SPL(6.6-6,.2+4,6.6-6,.2-4);
+SPL(-1.6,FZ,-1.6,12.4); SPL(1.6,FZ,1.6,12.4);
+const spGeo=new THREE.BufferGeometry(); spGeo.setAttribute('position',new THREE.Float32BufferAttribute(sp,3));
+const sitePlan=new THREE.LineSegments(spGeo,new THREE.LineBasicMaterial({color:0xFE9204,transparent:true,opacity:0})); scene.add(sitePlan);
+const spN=sp.length/3;
+
+/* ---------- instance helpers ---------- */
+const dmy=new THREE.Object3D(), Z=new THREE.Vector3(0,0,1), tmp=new THREE.Vector3();
+function setBar(mesh,i,a,b,w,h,k){const d=tmp.copy(b).sub(a);const len=d.length();dmy.position.copy(a);dmy.quaternion.setFromUnitVectors(Z,d.normalize());dmy.scale.set(k>0?w:0,k>0?h:0,Math.max(len*k,1e-4));dmy.updateMatrix();mesh.setMatrixAt(i,dmy.matrix)}
+orangeParts.forEach((q,i)=>setBar(mast,i,q.a,q.b,q.w,q.w,1)); mast.instanceMatrix.needsUpdate=true;
+jibParts.forEach((q,i)=>setBar(jib,i,q.a,q.b,q.w,q.w,1)); jib.instanceMatrix.needsUpdate=true;
+apex.forEach((q,i)=>setBar(apexMesh,i,q.a,q.b,q.w,q.w,1)); inkParts.forEach((q,i)=>setBar(ties,i,q.a,q.b,q.w,q.w,1));
+roofCaps.forEach(([a,b],i)=>{const a2=a.clone(),b2=b.clone();a2.y+=.05;b2.y+=.05;setBar(capMesh,i,a2,b2,.17,.09,1)}); capMesh.instanceMatrix.needsUpdate=true;
+for(const m of [mast,jib,apexMesh,ties,blockMesh,lintelMesh,rafterMesh,scafMesh]) m.frustumCulled=false;
+
+/* ---------- camera framing ---------- */
+const TGT=new THREE.Vector3(-.4,6.2,-.6);
+const camF=new THREE.PerspectiveCamera(30,1,.5,400);
+let W=1,H=1,aspect=1,finalR=36,finalTheta=.66,finalPhi=1.17,startR=60, portrait=false;
+function frame(){
+ portrait=aspect<.95;
+ finalR=portrait?clamp(40/aspect,62,104):(H<520?84:aspect<1.35?76:64);
+ finalPhi=portrait?1.16:1.2; finalTheta=.62;
+ const hf=Math.atan(Math.tan(THREE.MathUtils.degToRad(15))*aspect);
+ startR=Math.max(54,(BW*.56)/Math.tan(hf),(BD*.62)/Math.tan(THREE.MathUtils.degToRad(15)));
+ TGT.y=portrait?2.2:H<520?4.2:6.2; camF.aspect=aspect; placeCam(camF,finalR,finalPhi,finalTheta,TGT,0); camF.updateProjectionMatrix(); camF.updateMatrixWorld();
+}
+const tgtStart=new THREE.Vector3(0,0,0), tgtNow=new THREE.Vector3();
+function placeCam(c,R,phi,th,tg,shiftY){c.position.set(tg.x+R*Math.sin(phi)*Math.sin(th),tg.y+R*Math.cos(phi),tg.z+R*Math.sin(phi)*Math.cos(th));c.lookAt(tg.x,tg.y+shiftY,tg.z)}
+
+/* ---------- headline layout: baseline locked just under the roof ridge ---------- */
+const word=document.getElementById('word'), h1=word.querySelector('h1'), kicker=document.getElementById('kicker'), nav=document.querySelector('.nav');
+const letters=[...h1.querySelectorAll('span')];
+function layoutWord(){
+ h1.style.fontSize='100px'; const per=h1.scrollWidth/100;
+ const p=new THREE.Vector3(0,EV+RIDGE,0).project(camF);
+ const base=(1-(p.y*.5+.5))*H+H*(portrait?.035:.07);
+ const navB=nav.getBoundingClientRect().bottom;
+ let fs=Math.min((portrait?.92:.70)*W/per,(base-navB-(portrait?46:74))/.76);
+ fs=Math.max(fs,48);
+ h1.style.fontSize=''; hero.style.setProperty('--wordSize',fs+'px');
+ word.style.top=base+'px';
+ const kf=Math.max(11,Math.min(14,fs*.042)); kicker.style.fontSize=kf+'px';
+ kicker.style.top=(base-fs*.80-kf*3.2)+'px';
+}
+
+/* ---------- master timeline ---------- */
+const END=8.6, UNLOCK=7.4; /* scrolling unlocks while the finishing touches are still landing */
+const doorT=document.getElementById('doorT'), doorB=document.getElementById('doorB'), seam=document.getElementById('seam'), dLogo=document.getElementById('doorLogo'), doors=document.getElementById('doors');
+const factsBox=document.querySelector('.facts'), introP=document.querySelector('.intro'), facts=[...document.querySelectorAll('.fact')], cue=document.querySelector('.scroll-cue');
+const planN=planPts.length/3, dimN=dimPts.length/3;
+let mx=0,my=0,smx=0,smy=0,finalBuilt=false;
+addEventListener('pointermove',e=>{mx=e.clientX/innerWidth*2-1;my=e.clientY/innerHeight*2-1},{passive:true});
+
+const tv1=new THREE.Vector3(), tv2=new THREE.Vector3();
+function setBarO(mesh,i,a,b,w,h,k,dy){tv1.copy(a);tv1.y+=dy;tv2.copy(b);tv2.y+=dy;setBar(mesh,i,tv1,tv2,w,h,k)}
+const bump=(f,a,b,r=.18)=>seg(f,a,a+r)*(1-seg(f,b-r,b));
+/* scroll state: hero exit (ph) and the five Leistungen steps (f: 0..5) */
+const svc=document.getElementById('leistungen'), proj=document.getElementById('projekte');
+const S={ph:0,f:0,camB:0,ex:0,of:0,o1:0,os1:0,o2:0,os2:0,or:0,lift:0,hx:0,hsc:1,hall:0,beam:0,scaf:1,trees:1,crane:1,fence:0,plan:0,lab:0,gantt:0};
+function scrollState(){
+ const y=scrollY, vh=innerHeight;
+ S.ph=clamp(y/(hero.offsetHeight*.92));
+ const q=clamp((y-svc.offsetTop)/Math.max(1,svc.offsetHeight-vh)); S.q=q; S.f=q*5; const f=S.f;
+ S.camB=eIO(S.ph);
+ S.ex=eIO(seg(S.ph,.3,1))*(1-.8*eIO(seg(f,1.1,1.7)))*(1-eIO(seg(f,1.85,2.4)));
+ const e=S.ex; S.of=e*1.1; S.o1=e*2.5; S.os1=e*4.5; S.o2=e*6.1; S.os2=e*8.1; S.or=e*9.9; S.lift=e*1.2;
+ const hs=eIO(seg(f,1.85,2.45))*(1-eIO(seg(f,3.8,4.3))); S.hx=-7.4*hs; S.hsc=1-.3*hs;
+ S.hall=eIO(seg(f,1.95,2.62))*(1-eIO(seg(f,3.85,4.35)));
+ S.beam=eOut(seg(f,1.15,1.7));
+ const back=x=>x; S.scaf=clamp(1-eIO(seg(S.ph,.1,.5))+eIO(seg(f,4.05,4.6)));
+ S.trees=clamp(1-eIO(seg(S.ph,.05,.55))+eIO(seg(f,4.1,4.7)));
+ S.crane=clamp(1-eIO(seg(S.ph,.05,.6))+eIO(seg(f,4.0,4.75)));
+ S.fence=seg(f,4.1,4.9);
+ S.plan=bump(f,2.95,4.1,.25);
+ S.lab=seg(S.ph,.75,1)*(1-seg(f,.9,1.15));
+ S.gantt=bump(f,3.0,4.05,.22);
+ S.pe=eIO(clamp((y-(proj.offsetTop-vh))/vh)); S.r=clamp((y-proj.offsetTop)/Math.max(1,proj.offsetHeight-vh));
+ S.pl=eIO(clamp((y-(proj.offsetTop+proj.offsetHeight-vh))/(vh*.45)));
+}
+const KEYS=[
+ {c:.5,R:64,phi:1.12,th:.80,t:[0,8.6,0]},
+ {c:1.5,R:50,phi:1.28,th:.30,t:[2.4,4.6,3.2]},
+ {c:2.5,R:66,phi:1.02,th:.74,t:[1.4,2.8,0]},
+ {c:3.5,R:64,phi:.36,th:.58,t:[0,0,0]},
+ {c:4.5,R:62,phi:1.1,th:.62,t:[0,4.2,0]}];
+const kc={R:0,phi:0,th:0,t:new THREE.Vector3()};
+function secCam(f){
+ let a=KEYS[0],b=KEYS[0],w=0;
+ if(f>=KEYS[4].c){a=b=KEYS[4]} else if(f>KEYS[0].c){for(let i=0;i<4;i++) if(f>=KEYS[i].c&&f<KEYS[i+1].c){a=KEYS[i];b=KEYS[i+1];w=eIO(clamp((f-a.c-.28)/.5));break}}
+ /* keyframes were tuned for ~16:9; pull back on narrower windows so the model is never cropped */
+ const pr=portrait?1.5:Math.max(1,Math.pow(1.72/aspect,.85));
+ kc.R=lerp(a.R,b.R,w)*pr; kc.phi=lerp(a.phi,b.phi,w); kc.th=lerp(a.th,b.th,w); kc.t.set(lerp(a.t[0],b.t[0],w),lerp(a.t[1],b.t[1],w),lerp(a.t[2],b.t[2],w));
+ return kc;
+}
+const tgtMix=new THREE.Vector3(); const AER={R:56,phi:.66,th:.92,t:new THREE.Vector3(0,3.2,0)}; let imgCY=0;
+function sceneAt(t,now){
+ const f=S.f;
+ /* the finished house shows in the hero, peels off as "Schicht für Schicht" starts, and returns for "Vom Modell zur Wirklichkeit" */
+ const vis=clamp(1-eIO(seg(S.ph,.04,.32))+eIO(seg(S.pe,.1,.7))), fin=k=>Math.min(k,vis);
+ planGeo.setDrawRange(0,Math.floor(planN*eIO(seg(t,1.0,2.5))/2)*2);
+ dimGeo.setDrawRange(0,Math.floor(dimN*eIO(seg(t,1.5,2.9))/2)*2);
+ dims.material.opacity=.7*(1-S.camB*.6);
+ sitePlan.material.opacity=S.plan; spGeo.setDrawRange(0,Math.floor(spN*eIO(seg(f,2.95,3.6))/2)*2);
+ /* house: intro build + exploded layers */
+ house.position.set(S.hx,S.lift,0); house.scale.setScalar(S.hsc);
+ /* ~1,500 wall instances: only rebuild their matrices when something that moves them changed */
+ const bk=t+'|'+S.o1+'|'+S.o2;
+ if(bk!==sceneAt.bk){ sceneAt.bk=bk;
+ for(let i=0;i<blocks.length;i++){const q=blocks[i];const k=seg(t,q.t0,q.t0+.42);
+  if(k<=0){dmy.scale.set(0,0,0)}else{const e=eOutQ(k);dmy.position.set(q.p.x,q.p.y+(1-e)*1.1+(q.p.y<F1?S.o1:S.o2),q.p.z);dmy.scale.set(q.sc.x*(.55+.45*e),q.sc.y,q.sc.z*(.55+.45*e))}
+  dmy.quaternion.identity();dmy.updateMatrix();blockMesh.setMatrixAt(i,dmy.matrix)}
+ blockMesh.instanceMatrix.needsUpdate=true;
+ for(let i=0;i<lintels.length;i++){const q=lintels[i];const k=seg(t,q.t0,q.t0+.4);
+  if(k<=0)dmy.scale.set(0,0,0);else{const e=eOutQ(k);dmy.position.set(q.p.x,q.p.y+(1-e)*1.4+(q.p.y<F1?S.o1:S.o2),q.p.z);dmy.scale.copy(q.sc)}
+  dmy.quaternion.identity();dmy.updateMatrix();lintelMesh.setMatrixAt(i,dmy.matrix)}
+ lintelMesh.instanceMatrix.needsUpdate=true; }
+ foundation.position.y=-.16+S.of;
+ const s1=seg(t,4.28,4.9), s2=seg(t,6.0,6.55);
+ slab1.visible=s1>0; slab1.position.y=Y1+(1-eOutQ(s1))*6+S.os1;
+ slab2.visible=s2>0; slab2.position.y=Y2+(1-eOutQ(s2))*6+S.os2;
+ rafters.forEach((q,i)=>setBarO(rafterMesh,i,q.a,q.b,q.w,q.h,eOut(seg(t,q.t0,q.t0+.55)),S.or)); rafterMesh.instanceMatrix.needsUpdate=true;
+ const bm=S.beam; beam.visible=bm>0; beam.position.y=9*BH+BH/2+S.o1+(1-eOutQ(bm))*5; beam.rotation.y=(1-bm)*.5;
+ const scM=S.scaf*(1-eIO(seg(t,6.75,7.3))*vis); /* scaffold comes down before the render goes on */
+ const sp=eOut(seg(t,5.2,6.7))*scM;
+ scaf.forEach((q,i)=>{const isStd=q.a.y===0&&q.b.y>3;const k=(isStd?sp:eOut(seg(t,5.35+q.lift*.3,5.8+q.lift*.3)))*scM;setBar(scafMesh,i,q.a,q.b,q.w,q.w,k)}); scafMesh.instanceMatrix.needsUpdate=true;
+ boards.forEach((b,li)=>{const k=eOut(seg(t,5.45+li*.3,5.9+li*.3))*scM;b.visible=k>0;b.scale.set(1,1,Math.max(k,1e-3))});
+ /* finished house */
+ const aS=fin(eIO(seg(t,6.95,7.75))), aR=fin(seg(t,7.3,8.0)), aW=fin(eOut(seg(t,7.55,8.15))), aG=fin(eOut(seg(t,7.65,8.35))), aP=fin(eOut(seg(t,7.95,8.5)));
+ finish.visible=aS>0||aR>0||aG>0;
+ skins.forEach(m=>{m.visible=aS>0;m.scale.y=Math.max(aS,1e-3)});
+ roofG.visible=aR>0; roofG.position.y=(1-eOutQ(aR))*3.5; MF.roof.opacity=aR; MF.trim.opacity=aR; MF.cap.opacity=aR;
+ solar.visible=aP>0; MF.solar.opacity=aP;
+ wins.visible=aW>0; MF.frame.opacity=aW; MF.glass.opacity=.92*aW; MF.sill.opacity=aW;
+ garden.visible=aG>0; MF.lawn.opacity=aG; MF.paving.opacity=aG; MF.hedge.opacity=aG;
+ hedges.forEach(b=>{b.scale.y=b.userData.h*Math.max(aG,1e-3);b.position.y=b.userData.h*aG/2});
+ trees.forEach(({g,i})=>g.scale.setScalar(Math.max(eBack(seg(t,2.7+i*.09,3.5+i*.09))*S.trees,1e-4)));
+ props.forEach((g,i)=>g.scale.setScalar(Math.max(eBack(seg(t,2.5+i*.12,3.2+i*.12))*S.trees*(1-eIO(seg(t,7.5,8.1))*vis),1e-4)));
+ figs.forEach((g,i)=>g.scale.setScalar(Math.max(eBack(seg(t,3.3+i*.1,3.9+i*.1))*S.trees,1e-4)));
+ const cr=eIO(seg(t,2.5,4.3))*S.crane; crane.visible=cr>.001; crane.scale.set(1,Math.max(cr,1e-3),1);
+ /* hall assembles from steel frame, panel courses, then the roof deck */
+ const h=S.hall; hall.visible=h>0;
+ if(h>0){ hcols.forEach((q,i)=>setBar(hallCols,i,q.a,q.b,q.w,q.w,eOut(seg(h,q.top?.62:0,q.top?.78:.28)))); hallCols.instanceMatrix.needsUpdate=true;
+  hpan.forEach((q,i)=>{const k=eOutQ(seg(h,.18+q.c*.05,.34+q.c*.05));if(k<=0)dmy.scale.set(0,0,0);else{dmy.position.set(q.p.x,q.p.y+(1-k)*1.2,q.p.z);dmy.scale.copy(q.s)}dmy.quaternion.identity();dmy.updateMatrix();hallPan.setMatrixAt(i,dmy.matrix)}); hallPan.instanceMatrix.needsUpdate=true;
+  const dk=eOut(seg(h,.55,.75)); door.scale.set(1,Math.max(dk,1e-3),1); door.position.y=2.15*dk;
+  const rk=seg(h,.8,1); hroof.visible=rk>0; hroof.position.y=HLH+.26+(1-eOutQ(rk))*5; }
+ const fM=1-eIO(seg(S.pe,.1,.6));
+ fence.forEach((q,i)=>setBar(fenceMesh,i,q.a,q.b,q.w,q.w,eOut(seg(S.fence,q.o*.6,q.o*.6+.4))*fM)); fenceMesh.instanceMatrix.needsUpdate=true;
+ /* highlight frames */
+ const L=S.lab;
+ HI.fd.position.y=-.16+S.of; HI.w1.position.y=F1/2+S.o1; HI.s1.position.y=Y1+S.os1; HI.w2.position.y=F2+C2*BH/2+S.o2; HI.s2.position.y=Y2+S.os2; HI.roof.position.y=EV+RIDGE/2+S.or;
+ ['fd','w1','s1','w2','s2','roof'].forEach((k,i)=>HI[k].material.opacity=L*seg(S.ph,.75+i*.03,.9+i*.03)*.85);
+ HI.beam.material.opacity=bump(f,1.2,2.0)*.95; HI.hall.material.opacity=bump(f,2.75,3.6)*.9;
+ /* crane life */
+ const idle=RM?0:Math.max(0,now);
+ slew.rotation.y=lerp(1.9,.5,eIO(seg(t,3.9,6.0)))+.11*Math.sin(idle*.22)*seg(t,6,7.5);
+ trolley.position.x=lerp(17,12.2,eIO(seg(t,4.2,6.3)))+.8*Math.sin(idle*.17)*seg(t,6.5,7.5);
+ const HL=6.2; cable.scale.y=HL; cable.position.y=-HL/2; hook.position.y=-HL;
+ hook.rotation.z=.045*Math.sin(idle*1.05); hook.rotation.x=.035*Math.sin(idle*.83+1); pallet.rotation.y=.25*Math.sin(idle*.3);
+ /* camera: intro path, then blended into the section keyframes */
+ const c=eIO(seg(t,1.55,4.9));
+ smx+=(mx-smx)*.04; smy+=(my-smy)*.04; const live=RM?0:seg(t,END-.6,END);
+ let R=lerp(startR,finalR,eIO(seg(t,1.55,4.7)));
+ let phi=lerp(.0015,finalPhi,c)+(live*(smy*.035))+(live*.012*Math.sin(idle*.21));
+ let th=lerp(finalTheta-.75,finalTheta,c)+live*(smx*-.07+.035*Math.sin(idle*.13));
+ tgtNow.lerpVectors(tgtStart,TGT,c);
+ const b=S.camB;
+ if(b>0){const k=secCam(f); R=lerp(R,k.R,b); phi=lerp(phi,k.phi,b); th=lerp(th,k.th+(RM?0:smx*-.05),b); tgtNow.lerp(k.t,b)}
+ const pe=S.pe;
+ if(pe>0){R=lerp(R,AER.R*(portrait?1.35:1),pe); phi=lerp(phi,AER.phi,pe); th=lerp(th,AER.th,pe); tgtNow.lerp(AER.t,pe)}
+ placeCam(camera,R,phi,th,tgtNow,0);
+ const oy=-(imgCY-H/2)*pe;
+ if(portrait) camera.setViewOffset(W,H,0,H*.2*b*(1-pe)+oy,W,H); else camera.setViewOffset(W,H,-W*.18*b*(1-pe),oy,W,H);
+}
+/* ---------- section DOM ---------- */
+const tags=[...document.querySelectorAll('.tag')], steps=[...document.querySelectorAll('.step')], railB=[...document.querySelectorAll('.rail button')];
+const gantt=document.getElementById('gantt'), gbars=[...gantt.querySelectorAll('.tr i')], cnum=document.getElementById('cnum'), cbar=document.getElementById('cbar'), lowerBox=document.querySelector('.lower');
+const svcText=document.querySelector('.svc-text'), countEl=document.querySelector('.count'), labelsEl=document.getElementById('labels');
+const NAMES=['Rohbau','Umbau','Hallenbau','Projektmanagement','Baunebenleistungen'];
+const AN={beam:()=>[beam.position.x+1.5,beam.position.y,beam.position.z+.2],roof:()=>[HW/2+.4,EV+RIDGE*.35+S.or,HD/2+.4],s2:()=>[HW/2+.25,Y2+S.os2,HD/2+.25],w2:()=>[HW/2+.2,F2+C2*BH*.55+S.o2,HD/2+.2],s1:()=>[HW/2+.25,Y1+S.os1,HD/2+.25],w1:()=>[HW/2+.2,F1*.55+S.o1,HD/2+.2],fd:()=>[HW/2+.35,-.16+S.of,HD/2+.35]};
+const pv=new THREE.Vector3(); let lastAI=-1;
+function svcDom(){
+ const f=S.f;
+ tags.forEach((el,i)=>{const a=AN[el.dataset.a]();pv.set(a[0],a[1],a[2]);house.localToWorld(pv);pv.project(camera);
+  const x=(pv.x*.5+.5)*W, y=(1-(pv.y*.5+.5))*H, o=el.dataset.beam?bump(f,1.35,2.0)*S.beam:S.lab*seg(S.ph,.78+i*.03,.92+i*.03);
+  el.style.opacity=o; el.style.transform=`translate(${x-4.5}px,${y-12}px) translateX(${(1-o)*-10}px)`});
+ const ai=Math.min(4,Math.max(0,Math.floor(f)));
+ /* sequential hand-off: the old step leaves before the new one arrives, so two texts never overlap */
+ steps.forEach((el,i)=>{const tin=i===0?1:eOut(seg(f,i,i+.14)), tout=i===4?0:eIO(seg(f,i+.84,i+.98)), o=tin*(1-tout);
+  el.style.opacity=o; el.style.transform=`translate3d(0,${(1-tin)*16-tout*12}px,0)`; el.style.visibility=o>0?'visible':'hidden'; el.classList.toggle('on',i===ai)});
+ /* fade the whole Leistungen layer while its sticky releases, instead of sliding it under the nav */
+ const leave=1-eIO(seg(S.pe,0,.32));
+ svcText.style.opacity=leave; countEl.style.opacity=leave; labelsEl.style.opacity=leave;
+ if(ai!==lastAI){railB.forEach((b,i)=>{b.classList.toggle('on',i===ai);b.setAttribute('aria-selected',i===ai)});cnum.textContent=NAMES[ai];lastAI=ai}
+ railB.forEach((b,i)=>b.firstElementChild.style.width=(clamp(f-i)*100)+'%');
+ cbar.style.width=(S.q*100)+'%';
+ gantt.style.opacity=S.gantt; gantt.style.transform=`translate3d(0,${(1-S.gantt)*16}px,0)`;
+ gbars.forEach((g,i)=>{const s=+g.dataset.s,e=+g.dataset.e,k=eOut(seg(f,3.05+i*.06,3.45+i*.06));g.style.left=s+'%';g.style.width=((e-s)*k)+'%'});
+}
+
+/* ---------- section 3 DOM: the photo opens where the model stands ---------- */
+const track=document.getElementById('track'), cards=[...track.children], ph0=document.getElementById('ph0'), projHead=document.getElementById('projHead');
+const pimgs=cards.map(c=>c.querySelector('img')), caps=cards.map(c=>c.querySelector('.cap')), placesB=[...document.querySelectorAll('.places b')], pbar=document.getElementById('pbar');
+const houseC=[]; for(const x of [-HW/2,HW/2]) for(const y of [0,EV+RIDGE]) for(const z of [-HD/2,HD/2]) houseC.push(new THREE.Vector3(x,y,z));
+function layoutProj(){const cw=cards[0].offsetWidth, ih=cw*2/3; const top=(portrait?.43:.565)*H-ih/2; track.style.top=top+'px'; imgCY=top+ih/2}
+let lastP=-1, phRect={top:0,right:0,bottom:0,left:0};
+const placesEl=document.querySelector('.places');
+function projDom(){
+ const r=S.r, pe=S.pe;
+ const out=1-S.pl;
+ projHead.style.opacity=seg(pe,.55,1)*out; projHead.style.transform=`translate3d(0,${(1-seg(pe,.55,1))*24}px,0)`;
+ placesEl.style.opacity=out;
+ canvas.style.opacity=1-seg(r,.08,.3);
+ /* reveal clip from the model's screen footprint to the full card */
+ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+ for(const v of houseC){pv.copy(v);house.localToWorld(pv);pv.project(camera);const sx=(pv.x*.5+.5)*W,sy=(1-(pv.y*.5+.5))*H;x0=Math.min(x0,sx);x1=Math.max(x1,sx);y0=Math.min(y0,sy);y1=Math.max(y1,sy)}
+ const pr=phRect, k=eIO(seg(r,.04,.2)), m=(1-k);
+ const it=Math.max(0,y0-pr.top)*m, ir=Math.max(0,pr.right-x1)*m, ib=Math.max(0,pr.bottom-y1)*m, il=Math.max(0,x0-pr.left)*m;
+ ph0.style.clipPath=`inset(${it}px ${ir}px ${ib}px ${il}px round ${lerp(10,26,k)}px)`;
+ ph0.style.opacity=seg(r,0,.045);
+ caps[0].style.opacity=seg(r,.16,.24); caps[0].style.transform=`translateY(${(1-seg(r,.16,.24))*14}px)`;
+ for(let i=1;i<cards.length;i++) cards[i].style.opacity=seg(r,.2,.3);
+ /* horizontal track with gentle holds on each project */
+ const step=cards[1].offsetLeft-cards[0].offsetLeft, u=clamp((r-.28)/.66)*3, i=Math.min(2,Math.floor(u)), fr=u-i;
+ const sPos=u>=3?3:i+eIO(clamp((fr-.18)/.64));
+ track.style.transform=`translate3d(${-sPos*step}px,0,0)`;
+ pimgs.forEach((img,j)=>{if(!img)return;const d=(j-sPos)*step; img.style.transform=`translateX(${clamp(-d*.045,-28,28)}px) scale(${j===0?lerp(1.1,1,k):1})`});
+ const ai=Math.min(2,Math.round(sPos)); if(ai!==lastP){placesB.forEach((b,j)=>b.classList.toggle('on',j===ai));lastP=ai}
+ pbar.style.width=(r*100)+'%';
+}
+railB.forEach((b,i)=>b.addEventListener('click',()=>{const top=svc.offsetTop+(i+.55)/5*(svc.offsetHeight-innerHeight);goTo(top)}));
+function heroExit(){
+ const p=S.ph, o=1-eIO(seg(p,0,.5));
+ word.style.opacity=o; word.style.transform=`translate3d(0,${-p*140}px,0) translateY(-100%)`;
+ kicker.style.opacity=o; kicker.style.translate=`0 ${-p*170}px`;
+ lowerBox.style.opacity=1-eIO(seg(p,0,.35)); lowerBox.style.transform=`translate3d(0,${p*50}px,0)`;
+ cue.style.opacity=1-seg(p,0,.15);
+}
+
+function domAt(t){
+ seam.style.transform=`translateX(-50%) scaleX(${eIO(seg(t,.15,.8))})`;
+ seam.style.opacity=1-seg(t,.95,1.35);
+ dLogo.style.opacity=eOut(seg(t,.05,.45))-seg(t,.8,1.0);
+ dLogo.style.transform=`translate(-50%,-50%) scale(${1+.04*seg(t,0,1)})`;
+ const d=eIO(seg(t,.95,1.85)); doorT.style.transform=`translateY(${-101*d}%)`; doorB.style.transform=`translateY(${101*d}%)`;
+ const n=eOut(seg(t,3.1,3.65)); nav.style.opacity=n; nav.style.transform=`translateY(${(1-n)*-10}px)`;
+ const k=eOut(seg(t,3.85,4.5)); kicker.style.opacity=k; kicker.style.transform=`translateY(${(1-k)*8}px)`;
+ letters.forEach((s,i)=>{const p=eOutQ(seg(t,3.7+i*.075,4.55+i*.075));s.style.opacity=p;s.style.transform=`translateY(${(1-p)*.24}em)`});
+ factsBox.style.opacity=eOut(seg(t,4.5,5.0)); const ip=eOut(seg(t,4.3,4.95)); introP.style.opacity=ip; introP.style.transform=`translateY(${(1-ip)*14}px)`;
+ facts.forEach((f,i)=>{const p=eOut(seg(t,4.6+i*.1,5.2+i*.1));f.style.opacity=p;f.style.transform=`translateY(${(1-p)*14}px)`});
+ cue.style.opacity=eOut(seg(t,5.8,6.4));
+}
+
+/* ---------- run ---------- */
+function resize(){W=canvas.clientWidth||innerWidth;H=canvas.clientHeight||innerHeight;aspect=W/H;renderer.setPixelRatio(Math.min(devicePixelRatio,W<700?1.5:2));renderer.setSize(W,H,false);camera.aspect=aspect;camera.updateProjectionMatrix();frame();layoutWord();layoutProj()}
+new ResizeObserver(resize).observe(canvas); resize();
+if('scrollRestoration' in history) history.scrollRestoration='manual'; scrollTo(0,0);
+
+/* smooth, inertial scrolling: every scroll-driven animation (3D camera, pinned sections, photo reveals)
+   now follows an eased scroll position instead of jumping with each wheel notch */
+const lenis=(!RM&&window.Lenis)?new window.Lenis({lerp:.085,wheelMultiplier:.9,smoothWheel:true,syncTouch:false}):null;
+if(lenis) lenis.stop();
+function goTo(top){ if(lenis) lenis.scrollTo(top,{duration:1.4}); else scrollTo({top,behavior:RM?'auto':'smooth'}); }
+window.__goTo=goTo;
+document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const id=a.getAttribute('href').slice(1); const el=id&&document.getElementById(id); if(!el) return; e.preventDefault(); goTo(el.offsetTop)}));
+
+/* intro clock: plays in real time, but runs ~5x faster the moment someone tries to scroll,
+   so the page never feels "stuck" behind the opening animation */
+let tAcc=0, lastNow=null, speed=1, started=false, done=false;
+function start(){ if(started) return; started=true; lastNow=null; }
+const hurry=()=>{ if(done) return; if(!started) start(); speed=5.5; };
+addEventListener('wheel',hurry,{passive:true}); addEventListener('touchstart',hurry,{passive:true});
+addEventListener('keydown',e=>{ if(['ArrowDown','PageDown','Space',' ','End'].includes(e.key)) hurry(); });
+function finishIntro(){ done=true; hero.classList.remove('intro-on'); doors.style.display='none'; document.body.classList.remove('lock'); if(lenis) lenis.start(); }
+function loop(now){
+ if(lenis) lenis.raf(now);
+ if(started){ if(lastNow!==null) tAcc+=Math.min(.1,Math.max(0,now-lastNow)/1000)*speed; lastNow=now; }
+ const t=window.__fixT!==undefined?window.__fixT:RM?END:tAcc;
+ scrollState();
+ phRect=ph0.getBoundingClientRect(); /* read layout once, before this frame's style writes */
+ sceneAt(Math.min(t,END),now/1000);
+ if(window.__fixT!==undefined){domAt(Math.min(t,END));doors.style.display=t>=END?'none':'';if(t>=END){hero.classList.remove('intro-on');document.body.classList.remove('lock')}}
+ else if(!done){domAt(Math.min(t,END)); if(t>=UNLOCK) finishIntro();}
+ if(done||(window.__fixT!==undefined&&t>=END)) heroExit();
+ svcDom(); projDom();
+ if(canvas.style.opacity!=='0') renderer.render(scene,camera);
+ requestAnimationFrame(loop);
+}
+scrollState(); sceneAt(0,0); renderer.compile(scene,camera); domAt(RM?END:0);
+requestAnimationFrame(loop);
+Promise.race([document.fonts.ready,new Promise(r=>setTimeout(r,2500))]).then(()=>{layoutWord();start()});
+setTimeout(start,4000);
+window.__seek=s=>{tAcc=s;speed=1;done=false;doors.style.display='';hero.classList.add('intro-on')};
+}
+</script>
+
+<script>
+{
+const sec=document.getElementById('ablauf'); const shots=[...sec.querySelectorAll('.shot')], imgs=shots.map(x=>x.querySelector('img'));
+const metas=[...sec.querySelectorAll('.fmeta span')], titles=[...sec.querySelectorAll('.ftitle h3')], paras=[...sec.querySelectorAll('.fpara>div')], prog=[...sec.querySelectorAll('.fprog button')];
+const capt=document.getElementById('fcapt'), num=document.getElementById('fnum');
+const CAPS=['Lagebesprechung auf der Baustelle', 'Streifenfundament mit Anschlussbewehrung', 'Versetzen großformatiger Porenbeton-Steine', 'Rohbau eines Einfamilienhauses, eingerüstet'];
+const RMf=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const cl=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), sg=(t,a,b)=>cl((t-a)/(b-a));
+const io=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, oq=x=>1-Math.pow(1-x,4);
+let last=-1, lastA=-1;
+function render(s){
+ shots.forEach((el,i)=>{
+  const w=i===0?1:io(sg(s,i-.3,i));
+  el.style.clipPath=i===0?'none':`inset(${(1-w)*100}% 0 0 0)`;
+  el.style.visibility=w>0?'visible':'hidden';
+  const nx=i<3?io(sg(s,i+.7,i+1)):0;
+  const zoom=1.14-.1*w-.04*sg(s,i,i+.75);
+  imgs[i].style.transform=`translateY(${-nx*7}%) scale(${zoom})`;
+  imgs[i].style.filter=nx>0?`brightness(${1-.35*nx})`:'none';
+ });
+ titles.forEach((el,i)=>{
+  const tin=i===0?1:oq(sg(s,i-.24,i+.02)), tout=i===3?0:io(sg(s,i+.7,i+.84));
+  el.style.transform=`translateY(${tout>0?-tout*2.3:(1-tin)*2.3}em)`;
+  const o=tin*(1-tout);
+  paras[i].style.opacity=o; paras[i].style.transform=`translateY(${(1-tin)*18-tout*10}px)`;
+  metas[i].style.transform=`translateY(${tout>0?-tout*110:(1-tin)*110}%)`;
+ });
+ prog.forEach((b,i)=>b.querySelector('b').style.width=(sg(s,i,i===3?3.6:i+1)*100)+'%');
+ const a=Math.min(3,Math.floor(s+.15));
+ if(a!==lastA){prog.forEach((b,i)=>{b.classList.toggle('on',i===a);b.classList.toggle('done',i<a)});capt.textContent=CAPS[a];num.textContent=a+1;lastA=a}
+}
+prog.forEach((b,i)=>b.addEventListener('click',()=>{const L=sec.offsetHeight-innerHeight,top=sec.offsetTop+(i+.3)/4.15*L;if(window.__goTo)window.__goTo(top);else scrollTo({top,behavior:RMf?'auto':'smooth'})}));
+function tick(){const L=Math.max(1,sec.offsetHeight-innerHeight),p=cl((scrollY-sec.offsetTop)/L),s=cl(p*4.15,0,3.999);if(Math.abs(s-last)>.0003){render(s);last=s}requestAnimationFrame(tick)}
+render(0);requestAnimationFrame(tick);
+}
+</script>
+<noscript><p class="noscript">Bitte JavaScript aktivieren, um das 3D-Modell zu sehen.</p></noscript>
+</body>
+</html>
